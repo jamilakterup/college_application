@@ -1,0 +1,324 @@
+html {
+    font-size: .8rem;
+}
+
+body{
+    font-size:  .9rem;
+}
+
+.site-menubar-unfold .site-menu>.site-menu-item>a .site-menu-title {
+    font-size: 1.1rem;
+}
+.site-menu .site-menu-sub {
+    font-size: 1.1rem;
+}
+
+.form-control, .input-group>.form-control, .input-group>.input-group-addon, .input-group>.input-group-btn>.btn {
+    height: 2.3rem;
+}
+
+.form-control, .input-group>.form-control, .input-group>.input-group-addon, .input-group>.input-group-btn>.btn {
+    font-size: .9rem;
+    line-height: 1;
+    border-radius: 0.143rem;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #ced4da;
+    height: 2.3rem;
+    padding:  .429rem 0.858rem;
+}
+
+.select2-container--default .select2-selection {
+    font-size: 1em;
+}
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ced4da;
+}
+
+.form-control, .input-group>.form-control, .input-group>.input-group-addon, .input-group>.input-group-btn>.btn {
+    font-size: .9rem;
+    line-height: 1 !important;
+    border-radius: 0.143rem;
+}
+
+table.dataTable.cell-border tbody th,table.dataTable.cell-border tbody td{border-top:1px solid #ddd;border-right:1px solid #ddd}table.dataTable.cell-border tbody tr th:first-child,table.dataTable.cell-border tbody tr td:first-child{border-left:1px solid #ddd}table.dataTable.cell-border tbody tr:first-child th,table.dataTable.cell-border tbody tr:first-child td{border-top:none}
+.table tr th {
+    border: 1px solid #dddddd;
+    font-weight: normal;
+    background: #5ea4c9;
+    text-align: center;
+    color: #fff;
+}
+
+.table thead th {
+    color: #fff;
+}
+
+.panel-title {
+    font-size: 16px;
+}
+
+.page-title {
+    font-size: 20px;
+}
+.page-header {
+    padding: 20px 30px 10px 30px;
+}
+
+.type-b {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.type-c {
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+@media (max-width: 767px){
+    .panel-actions {
+        top: 15px;
+    }
+}
+.admission-menu a{
+    margin-bottom: 5px;
+}
+
+.header-menu a{
+    margin-bottom: 5px;
+}
+
+.submenu-item-inline a{
+    margin-bottom: 5px;
+}
+
+.sub-menu a{
+    margin-bottom: 5px;
+}
+
+.invalid-feedback{
+    display: inline;
+}
+
+.table-bordered {
+    border: 0;
+    border-right: 1px solid #e9ecef;
+}
+.table-bordered tr th:first-child, .table-bordered tr td:first-child {
+    border-left: 1px solid #e9ecef !important; /* this border still moves the fixedHeader by 1px, important because dataTables.css overwrites it otherwise */
+}
+
+.form-inline .form-group {
+    margin-bottom: 3px;
+}
+/*.table-sm th,
+.table-sm td {
+    padding: 3px;
+}*/
+
+.form-group .checkbox-group p {
+    font-size: 13px;
+    font-weight: normal;
+    color: #4e5e6a;
+    font-family: "open_sansregular",sans-serif;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.checkbox-group label.checkbox-inline{
+    margin-bottom: -1.1rem;
+}
+
+ul.list-type-a {
+    list-style: circle;
+    padding: 0;
+    margin: 0;
+}
+
+ul.list-type-a li {
+    padding-left: 0;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    display: block;
+    border-bottom: 1px dashed #ccc;
+    width: 100%;
+}
+
+table tr:nth-child(odd) {
+    background: #fafafa;
+}
+table tr:nth-child(even) {
+    background: #e8edff;
+}
+
+table tr:nth-child(even):hover {
+    background: #fffeee;
+}
+table tr:nth-child(odd):hover {
+    background: #fffeee;
+}
+
+table tr.update_row {
+    background-color: #f3f3b3;
+}
+.site-menubar {
+    top: 63px;
+}
+.page-header {
+    margin-top: -3px;
+}
+.table .warning {
+    background-color: #5ea4c9;
+    color: #fff;
+}
+
+form button.del {
+    padding: 0;
+    border: none;
+    background: none;
+}
+form button.del i {
+    color: red;
+    cursor: pointer;
+}
+.btn-type-e {
+    background: #47e5a0;
+    border-radius: 3px;
+    color: #042b03;
+    cursor: default;
+    font-size: 11px;
+    margin: 2px 0;
+    padding: 1px 15px;
+}
+.para-type-b {
+    border: 1px solid #ddd;
+    color: #34425a;
+    font-size: 13px;
+    padding: 10px;
+}
+.para-type-b span {
+    color: #f25656;
+}
+
+table.input-mark caption {
+    margin-bottom: 10px;
+    color: #a6b6c2;
+}
+table caption {
+    color: #4e5e6a;
+    font-family: "open_sansregular",sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    padding: 0 3.7%;
+}
+
+table caption span {
+    color: #3b81a6;
+    margin-right: 10px;
+}
+
+@media (min-width: 768px)
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.align-r {
+    text-align: right;
+}
+.filter-form{
+    margin-bottom: 3px;
+}
+
+.filter-form input,select {
+    margin-bottom: 3px;
+    margin-right: 3px;
+  }
+
+button.dropdown-item {
+    cursor: pointer;
+}
+
+.form-control{
+    border-color: #ced4da;
+}
+
+.selectize-control.multi .selectize-input>div {
+    padding: 1px 8px;
+    background: #ddd;
+}
+
+.selectize-dropdown .option, .selectize-dropdown .optgroup-header, .selectize-dropdown .no-results, .selectize-dropdown .create {
+    padding: 6px 0.75rem;
+}
+
+.selectize-input {
+    border: 1px solid #ced4da;
+    padding: 0.42rem 0.75rem;
+    min-width: 10rem !important;
+    overflow: visible;
+}
+
+.selectize-dropdown {
+  /*width: auto !important;*/
+}
+
+.selectize-dropdown [data-selectable], .selectize-dropdown .optgroup-header {
+   white-space: nowrap;
+}
+
+.selectize-control.plugin-remove_button .remove-single {
+    right: 29px;
+    top: -6px;
+}
+.selectize-control.form-control-sm .selectize-input.has-items {
+    min-height: calc(1.8em + 0.5rem + 2px) !important;
+    font-size: .9rem;
+    line-height: 1.7;
+}
+
+.col-form-label {
+    font-size: .9rem;
+}
+
+.modal-body .form-group {
+    margin-bottom: 0.4rem;
+}
+
+.modal-body {
+    padding: 10px 20px;
+}
+
+.modal-body h1, h2, h3, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 11px;
+}
+
+.form-inline .form-group {
+    margin-right: 5px;
+}
+
+.swal2-container {
+  z-index: 99999;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #e6ecef;
+}
+
+.table a {
+ text-decoration: none;
+}
+
+.col-form-label {
+    font-weight: bold;
+}

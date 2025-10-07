@@ -1,0 +1,59 @@
+table.dataTable.cell-border tbody th,table.dataTable.cell-border tbody td{border-top:1px solid #ddd;border-right:1px solid #ddd}table.dataTable.cell-border tbody tr th:first-child,table.dataTable.cell-border tbody tr td:first-child{border-left:1px solid #ddd}table.dataTable.cell-border tbody tr:first-child th,table.dataTable.cell-border tbody tr:first-child td{border-top:none}
+.table thead tr th {
+    border: 1px solid #dddddd;
+    font-weight: normal;
+    background: #5ea4c9;
+    text-align: center;
+}
+
+.table thead th {
+    color: #fff;
+}
+
+.panel-title {
+    font-size: 16px;
+}
+
+.page-title {
+    font-size: 20px;
+}
+.page-header {
+    padding: 20px 30px 10px 30px;
+}
+
+.type-b {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+@media (max-width: 767px){
+	.panel-actions {
+	    top: 15px;
+	}
+}
+.admission-menu a{
+	margin-bottom: 5px;
+}
+
+.invalid-feedback{
+    display: inline;
+}
+
+.table-bordered {
+    border: 0;
+    border-right: 1px solid #e9ecef;
+}
+.table-bordered tr th:first-child, .table-bordered tr td:first-child {
+    border-left: 1px solid #e9ecef !important; /* this border still moves the fixedHeader by 1px, important because dataTables.css overwrites it otherwise */
+}
+
+.form-inline .form-group {
+    margin-bottom: 3px;
+}
+/*.table-sm th,
+.table-sm td {
+    padding: 3px;
+}*/
+table tr.update_row {
+    background: #f3f3b3;
+}

@@ -1,0 +1,2 @@
+{{ link_to_route('hsc_result.subject.index', 'Subject', NULL, ['class' => 'btn btn-info']) }}
+{{ link_to_route('hsc_result.assign_subject.index', 'Subject Assign', NULL, ['class' => 'btn btn-info']) }}

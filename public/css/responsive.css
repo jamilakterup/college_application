@@ -1,0 +1,223 @@
+/* Large Layout */
+#top-nav ul.nav li a {
+	font-size: 15px;
+	padding: 11px 13px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 13px;	
+}	
+
+.btn-type-a {
+	left: 18%;
+	top: 25px;
+}	
+
+.btn-type-b {
+	left: 9%;
+	top: 25px;
+}
+
+#logo a {
+	font-size: 18px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 250%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 16%;
+}
+
+/* Desktop Layout: 992px. */
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+#top-nav ul.nav li a {
+	font-size: 13px;
+	padding: 11px 7px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 13px;	
+}
+
+.btn-type-a {
+	left: 26%;
+	top: 25px;
+}	
+
+.btn-type-b {
+	left: 9%;
+	top: 25px;
+}	
+
+#logo a {
+	font-size: 18px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 300%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 13%;
+}
+
+}	
+
+/* Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+#top-nav ul.nav li a {
+	font-size: 12px;
+	padding: 11px 3px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 13px;	
+}
+
+.btn-type-a {
+	left: 26%;
+	top: 25px;
+}
+
+.btn-type-b {
+	left: 18%;
+	top: 25px;
+}
+
+#logo a {
+	font-size: 18px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 200%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 20%;
+}
+
+}
+
+/* Mini Mobile Layout: 240px. */
+@media only screen and (max-width: 319px) {
+
+#top-nav ul.nav li a {
+	font-size: 12px;
+	padding: 11px 2px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 10px;	
+}
+
+.btn-type-a {
+	left: 35%;
+	top: 25px;
+}	
+
+.btn-type-b {
+	left: 20%;
+	top: 25px;
+}	
+
+#logo a {
+	font-size: 11px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 240%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 16.666666667%;
+}
+
+}
+
+/* Mobile Layout: 320px. */
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+
+#top-nav ul.nav li a {
+	font-size: 12px;
+	padding: 11px 2px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 10px;	
+}
+
+.btn-type-a {
+	left: 35%;
+	top: 25px;
+}	
+
+.btn-type-b {
+	left: 20%;
+	top: 25px;
+}	
+
+#logo a {
+	font-size: 11px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 240%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 16.666666667%;
+}
+
+}
+
+/* Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+#top-nav ul.nav li a {
+	font-size: 12px;
+	padding: 11px 2px;
+}
+
+#right-footer {
+	padding: 20px;
+	font-size: 11px;	
+}
+
+.btn-type-a {
+	left: 34.3%;
+	top: 25px;
+}	
+
+.btn-type-b {
+	left: 18%;
+	top: 25px;
+}	
+
+#logo a {
+	font-size: 15px;
+	padding: 3px 15px 0;	
+}	
+
+div#side-nav ul.nav li.custom:hover {
+	width: 270%;
+}	
+
+div#side-nav ul.nav li.custom:hover a i {
+	left: 14.5%;
+}
+
+}	

@@ -1,0 +1,2 @@
+{{ link_to_route('admin.admission.index', 'Admission Management', NULL, ['class' => 'btn btn-info']) }}
+{{ link_to_route('admin.requirement.index', 'Certificate Requirement Setup', NULL, ['class' => 'btn btn-info']) }}

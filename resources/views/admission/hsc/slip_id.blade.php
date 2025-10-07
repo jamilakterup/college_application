@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{asset('upload/sites/'.config('settings.site_favicon'))}}">
+    <title>HSC 1st Year Admission Confirmation Slip</title>
+
+    <style>
+        td , p{
+            font-size: 17px;
+        }
+        * {
+            margin : 0;
+            padding: 0;
+        }
+        .slip {
+            margin: 0 auto;
+            padding: 10px 35px;
+        }
+        .logo{
+            width: 100px;
+        }
+
+        .header-content {
+            float: left;
+            text-align: center;
+            width: 68%;
+            margin-top: 10px;
+/*            line-height: 5px;*/
+        }
+        .code {
+            text-align: center;
+        }
+
+        .clearfix {zoom: 1}
+        .clearfix:after {
+            content: '.';
+            clear: both;
+            display: block;
+            height: 0;
+            visibility: hidden;        
+        }
+
+        .main-content {
+            margin-top: 20px;
+        }
+
+        .main-content h2{
+            text-align: center;
+        }
+
+        .table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 98%;
+            margin: 0 auto;
+            margin-top: 8px;
+
+        }
+
+        .table td{
+            background: #C5D9F0;
+            padding: 12px 20px;
+            border: 1px solid black;
+        }
+
+        .table tr td:first-child {
+            width: 5em;
+            min-width: 8em;
+            max-width: 8em;
+            word-break: break-all;
+            font-weight: bold;
+        }
+
+        .table tr td:last-child {
+            padding-left: 5px;
+        }
+
+        .table td.info-label {
+            /*width: 30%;*/
+            width: 12em;
+            min-width: 8em;
+            max-width: 8em;
+            word-break: break-all;
+            font-weight: bold;
+        }
+
+        .info{
+            padding-left: 20px;
+        }
+
+        section.footer {
+            margin-top: 15px;
+            line-height: 10px;
+            text-align: center;
+        }
+
+        section.footer h3{
+            float: left;
+            color: green;
+        }
+
+        section.footer h3.company {
+            float: right;
+            margin-left: 430px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slip">
+        <table style="border-collapse: collapse;">
+            <tr>
+                <td width="20%" rowspan="4">
+                    <img src="{{asset('upload/sites/'.config('settings.site_logo'))}}" alt="logo" class="logo">
+                </td>
+                <td align="center">
+                    <p style="font-weight: bold;font-size: 18px;">{{config('settings.college_name')}} {{config('settings.college_name') !='' ? ', '.config('settings.college_district'):''}}</p>
+                </td>
+                <td width="10%"></td>
+            </tr>
+            <tr>
+                <td align="center"><p>Web Address: {{config('settings.college_web_address')}}</p></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="center"><p>Email : {{config('settings.college_email_address')}}</p></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td align="center"><h3 class="code">EIIN No. {{config('settings.college_eiin')}}</h3></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <section class="main-content">
+            <h2 style="margin: 2px 0;">HSC 1st Year Admission Confirmation Slip</h2>
+            <table class="table">
+                <tr>
+                    <td class="info-label">Name</td>
+                    <td>{{$student->name}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Student ID</td>
+                    <td>{{$student->id}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Class Roll</td>
+                    <td>{{$student->class_roll}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Current Level</td>
+                    <td>{{$student->current_level}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Group</td>
+                    <td>{{$student->groups}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Session</td>
+                    <td>{{$student->session}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Reference ID</td>
+                    <td>{{$tracking_id}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Transaction ID</td>
+                    <td>{{$invoice->txnid}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Paid Amount</td>
+                    <td>{{$invoice->total_amount}}</td>
+                </tr>
+
+                <tr>
+                    <td class="info-label">Payment Date</td>
+                    <td>{{date('Y-m-d',strtotime($invoice->updated_at))}}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="footer clearfix">
+            <h3>Congratulations, Your Payment is successfully completed</h3>
+        </section>
+
+        @php
+            $barcode = $student->name.'-'.$student->id.'-'.$invoice->total_amount.'-'.config('settings.college_eiin');
+            // $barcode = '<img height="40" width="300" src="data:image/png;base64,' . DNS1D::getBarcodePNG($barcode, 'C128B', 3,33) . '" alt="barcode"   />';
+
+            $qrCode = base64_encode(\QrCode::format('png')->size(120)->generate($barcode));
+
+            $barcode = "<img src='data:image/png;base64, $qrCode'>";
+        @endphp
+
+        <table width="100%">
+            <tr>
+                <td  width="25%"></td>
+                <td style="solid; padding: 5px; text-align: center;vertical-align: center;">
+                    {!! $barcode !!}
+                </td>
+                <td  width="25%"></td>
+            </tr>
+        </table>
+        
+    </div>
+
+    
+</body>
+</html>
