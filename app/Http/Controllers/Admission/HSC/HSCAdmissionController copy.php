@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\HscAdmittedStudent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Arr;
 
 class HSCAdmissionController extends Controller
 {
@@ -86,6 +87,7 @@ class HSCAdmissionController extends Controller
       $ssc_board = $request->get('ssc_board');
       $ssc_passing_year = $request->get('ssc_passing_year');
       $quota_pass = $request->get('quota_pass');
+
       Session::put('session', $session);
       Session::put('admission_session', $session);
 
@@ -96,7 +98,7 @@ class HSCAdmissionController extends Controller
         ->get();
 
       if (count($merit_result) > 0) {
-        $invoices = Invoice::where('roll', $ssc_roll)->where('passing_year', $merit_result[0]->passing_year)->where('admission_session', $config->session)->where('ssc_board', $merit_result[0]->ssc_board)->where('date_start', '>=', $opening_date)->where('type', 'hsc_admission')->orderByRaw("CASE WHEN status = 'Paid' THEN 1 ELSE 0 END DESC")->orderBy('id', 'desc')->get();
+        $invoices = Invoice::where('roll', $ssc_roll)->where('passing_year', $merit_result[0]->passing_year)->where('admission_session', $config->session)->where('ssc_board', $merit_result[0]->ssc_board)->where('date_start', '>=', $opening_date)->where('type', 'hsc_admission')->orderBy('id', 'desc')->get();
 
         if (count($invoices) > 0) {
           $invoice = $invoices->first();
@@ -185,17 +187,44 @@ class HSCAdmissionController extends Controller
     echo json_encode(array($password, $auto_id));
   }
 
-
+  // TODO list
   public function hscInformationSubmit(Request $request)
   {
 
     $this->validate($request, [
+      'password' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'present_village' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'present_po' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'permanent_village' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'permanent_post_office' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'ssc_institute' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'guardian_name' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'guardian_phone' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'student_mobile' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'father_name' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'mother_name' => ['required', 'regex:/^[\x00-\x7F]+$/'],
+      'occupation' => ['required', 'regex:/^[\x00-\x7F]+$/'],
       'ssc_roll' => 'required|numeric',
       'ssc_gpa' => 'required|numeric',
-      'photo' => 'required|mimes:jpeg,jpg,png|max:15|dimensions:width=120,height=150',
+      'ssc_registration' => 'required|numeric',
+      'ssc_total_mark' => 'required|numeric',
+      'photo' => 'required|mimes:jpeg,jpg,png',
       'fathers_nid' => 'required|numeric',
       'mothers_nid' => 'required|numeric',
       'birth_reg_no' => 'required|numeric'
+    ], [
+      'password.regex' => 'Password can only contain English letters, numbers, and symbols.',
+      'present_village.regex' => 'Present village can only contain English letters',
+      'present_po.regex' => 'Present post can only contain English letters',
+      'permanent_village.regex' => 'permanent village can only contain English letters',
+      'permanent_post_office.regex' => 'permanent post office can only contain English letters',
+      'guardian_name.regex' => 'Guardian name can only contain English letters',
+      'guardian_phone.regex' => 'Guardian phone can only contain English number',
+      'student_mobile.regex' => 'Student phone can only contain English number',
+      'father_name.regex' => 'Father name can only contain English letters',
+      'mother_name.regex' => 'Mother name can only contain English letters',
+      'occupation.regex' => 'Guardian occupation can only contain English letters',
+      'ssc_institute.regex' => 'ssc institute can only contain English letters',
     ]);
     $temp_entry_time = date('Y-m-d G:i:s');
     $entry_time = date('Y-m-d G:i:s', strtotime($temp_entry_time));
@@ -270,8 +299,8 @@ class HSCAdmissionController extends Controller
     DB::table('invoices')->where('id', $invoice->id)->update([
       'pro_group' => $faculty,
       'slip_type' => $pay_header->code,
-      'slip_name' => $pay_header->title
-      // 'total_amount' => $total_amount
+      'slip_name' => $pay_header->title,
+      'total_amount' => $total_amount
     ]);
 
     $submitted_data = array(
@@ -297,7 +326,6 @@ class HSCAdmissionController extends Controller
       'mothers_nid' => $request->get('mothers_nid'),
       'date_of_birth' => date('Y-m-d', strtotime($request->get('birth_date'))),
       'religion' => $request->get('religion'),
-      'quota' => $request->get('quota'),
       'password' => $request->get('password'),
       'sex' => $request->get('gender'),
       'relation' => $request->get('relation'),
@@ -319,14 +347,16 @@ class HSCAdmissionController extends Controller
       'ssc_gpa' => $request->get('ssc_gpa'),
       'guardian_name' => $request->get('guardian_name'),
       'guardian_phone' => $request->get('guardian_phone'),
-      'emergency_contact_no' => $request->get('emergency_contact_no'),
       'relation' => $request->get('guardian_relation'),
       'ssc_reg_no' => $request->get('ssc_registration'),
       'ssc_group' => $request->get('ssc_group'),
       'ssc_institution' => $request->get('ssc_institute'),
       'ssc_session' => $request->get('ssc_session'),
       'ssc_gpa' => $request->get('ssc_gpa'),
+      'college_hostle' => $request->get('college_hostle'),
+      'quota' => $request->get('quota'),
       'birth_reg_no' => $request->get('birth_reg_no'),
+      'ssc_total_mark' => $request->get('ssc_total_mark'),
     );
 
     $admitted_student = DB::table('hsc_admitted_students')->where('admission_session', $admission_session)->where('ssc_board', $ssc_board)->where('ssc_roll', $ssc_roll)->get();
@@ -385,7 +415,7 @@ class HSCAdmissionController extends Controller
 
 
       if ($hsc_admitted->invoice_id != 0) {
-        $invoices = Invoice::where('roll', $hsc_admitted->ssc_roll)->where('ssc_board', $hsc_admitted->ssc_board)->where('admission_session', $hsc_admitted->admission_session)->where('type', 'hsc_admission')->orderByRaw("CASE WHEN status = 'Paid' THEN 1 ELSE 0 END DESC")->orderBy('id', 'desc')->get();
+        $invoices = Invoice::where('roll', $hsc_admitted->ssc_roll)->where('ssc_board', $hsc_admitted->ssc_board)->where('admission_session', $hsc_admitted->admission_session)->where('type', 'hsc_admission')->orderBy('id', 'desc')->get();
         if (count($invoices) > 0) {
           $invoice = $invoices->first();
           Session::put('invoice_id', $invoice->id);
@@ -454,19 +484,23 @@ class HSCAdmissionController extends Controller
 
     $auto_id = hsc_tracking_auto_id($tracking_id);
 
-    $admitted_student = DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->get();
+    $configs = DB::table('admission_config')->where('course', 'hsc')->where('open', 1)->where('current_level', 'HSC 1st Year')->get();
+
+    if (count($configs) > 0) {
+      $config = $configs->first();
+    } else {
+      return '<p style="color:red">Something Went Wrong. Please Try Again.</p>';
+    }
+
+    $admitted_student = DB::table('hsc_admitted_students')->where('admission_session', $config->session)->where('auto_id', $auto_id)->get();
 
     if (count($admitted_student) < 1) {
       return '<p style="color:red">Something Went Wrong. Please Try Again.</p>';
     }
 
+    $student = DB::table('student_info_hsc')->where('refference_id', $auto_id)->where('session', $config->session)->first();
     $admitted_student = $admitted_student->first();
-    $session = $admitted_student->admission_session;
-
-    $student = DB::table('student_info_hsc')->where('refference_id', $auto_id)->where('session', $session)->first();
-
     error_reporting(0);
-
     $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4', 10, 'times']);
     addMpdfPageSetup($mpdf);
 
@@ -535,29 +569,6 @@ class HSCAdmissionController extends Controller
     return Redirect::route('student.hsc.admission.signin');
   }
 
-  public function roll_generate_hsc($session, $groups)
-  {
-
-    if ($groups == 'Humanities')  // in id_roll table, groups of hsc and degree are separated by prefix hsc_ and degree_ in 'dept_name' code.
-      $cat = "2";
-    else if ($groups == 'Science')
-      $cat = "1";
-    else if ($groups == 'Business Studies')
-      $cat = "3";
-    $cat = '000';
-    $groups = 'hsc_' . $groups;
-
-    $results = DB::select("select last_digit_used from id_roll where session='$session' and dept_name='$groups'");
-    //convert 1 as 001 for 3 digit roll
-    foreach ($results as $result) {
-      $digit = str_pad($result->last_digit_used + 1, '3', '0', STR_PAD_LEFT);
-      break;
-    }
-    $session = substr($session, 0, 4);
-    $class_roll = $session . $cat . $digit;
-
-    return $class_roll;
-  }
 
   public function randomPassword()
   {
@@ -708,8 +719,6 @@ class HSCAdmissionController extends Controller
       return Redirect::route('student.hsc.admission.HscConfirmation')->with('res', 'Student not found in merit list');
     }
 
-    $id = IdRollGenerate::id_generate_hsc($session, $hsc_group);
-    $class_roll = IdRollGenerate::roll_generate_hsc($id);
 
     $results = DB::select("SELECT merit_status,rank FROM hsc_merit_list WHERE ssc_roll=$ssc_roll AND  ssc_board ='$ssc_board' AND passing_year='$ssc_pass_year'");
     foreach ($results as $result) {
@@ -720,6 +729,10 @@ class HSCAdmissionController extends Controller
     DB::beginTransaction();
 
     try {
+
+      $id = IdRollGenerate::id_generate_hsc($session, $hsc_group);
+      $class_roll = IdRollGenerate::roll_generate_hsc($id);
+
       DB::table('student_info_hsc')->insert(
         array('id' => $id, 'name' => $name, 'PIN_number' => $PIN_number, 'class_roll' => $class_roll, 'session' => $session, 'groups' => $hsc_group, 'current_level' => 'HSC 1st Year', 'father_name' => $father_name, 'mother_name' => $mother_name, 'birth_date' => $birth_date, 'gender' => $gender, 'permanent_village' => $perm_vill, 'present_village' => $present_villege, 'permanent_po' => $permanent_po, 'present_po' => $present_po, 'permanent_ps' => $permanent_ps, 'present_ps' => $present_ps, 'permanent_dist' => $permanent_dist, 'ssc_passing_year' => $ssc_pass_year, 'present_dist' => $present_dist, 'contact_no' => $contact_no, 'religion' => $religion, 'guardian' => $guardian_name, 'image' => $image_name, 'refference_id' => $st_ref_id, 'ssc_roll' => $ssc_roll, 'merit_status' => $merit_status, 'merit_rank' => $rank, 'hsc_subjects_info' => $all_string, 'ssc_session' => $ssc_session, 'ssc_reg_no' => $ssc_reg_no, 'ssc_board' => $ssc_board, 'ssc_group' => $ssc_group, 'gpa' => $ssc_gpa, 'total_amount' => $invoice->total_amount)
       );
@@ -736,7 +749,7 @@ class HSCAdmissionController extends Controller
 
       $d = date('Y-m-d');
 
-      DB::update("update id_roll set last_digit_used=last_digit_used+1 where session='$session' and dept_name='hsc_{$hsc_group}'");
+      // DB::update("update id_roll set last_digit_used=last_digit_used+1 where session='$session' and dept_name='hsc_{$hsc_group}'");
 
 
       $date = date('Y-m-d');
@@ -756,45 +769,27 @@ class HSCAdmissionController extends Controller
   }
 
 
-  public function hscimagedownload()
+  public function downloadSlipCommitment()
   {
-    $results = DB::select("SELECT * FROM `student_info_hsc` WHERE `session` LIKE '2020-2021'");
+    $tracking_id = Session::get('tracking_id');
+    $invoice_id = Session::get('invoice_id');
+    $admission_session = Session::get('admission_session');
+    $auto_id = hsc_tracking_auto_id($tracking_id);
 
+    $invoice = DB::table('invoices')->where('id', $invoice_id)->first();
+    $admitted_student = DB::table('hsc_admitted_students')->where('admission_session', $admission_session)->where('auto_id', $auto_id)->first();
 
-    foreach ($results as $result) {
-      $file_name = $result->id . '.jpg';
-      $url = 'http://easycollegemate.com/ecmrgwc/public/upload/college/hsc/' . $result->image;
+    $configs = DB::table('admission_config')->where('course', 'hsc')->where('open', 1)->where('current_level', 'HSC 1st Year')->get();
 
-
-      try {
-        $url = str_replace(" ", '%20', $url);
-
-        $file_name = public_path('hscdownload/' . $file_name);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, false);
-        curl_setopt($ch, CURLOPT_REFERER, "http://www.xcontest.org");
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        //print_r($result); // prints the contents of the collected file before writing..
-
-
-        // the following lines write the contents to a file in the same directory (provided permissions etc)
-        $fp = fopen($file_name, 'w');
-        fwrite($fp, $result);
-        fclose($fp);
-      } catch (Exception $e) {
-        return $e;
-      }
+    if (count($configs) > 0) {
+      $config = $configs->first();
+    } else {
+      return '<p style="color:red">Something Went Wrong. Please Try Again.</p>';
     }
 
-    return  'Ok';
+    $student = DB::table('student_info_hsc')->where('refference_id', $auto_id)->where('session', $config->session)->first();
+
+    return view('admission.hsc.commitment_slip_id', compact('student', 'admitted_student'));
   }
 
   public function payment_approve(Request $request)
@@ -852,20 +847,30 @@ class HSCAdmissionController extends Controller
     if (is_null($admitted_student))
       return redirect()->back()->withInput()->with('error', "Something Went Wrong, Please try Again!");
 
-    $student = DB::table('student_info_hsc')->where('refference_id', $auto_id)->where('session', $admission_session)->first();
+    $rules[] = [
+      'student_name' => 'required',
+      'father_name' => 'required',
+      'mother_name' => 'required',
+      'ssc_registration' => 'required|numeric',
+      'ssc_gpa' => 'required',
+      'ssc_institute' => 'required',
+      'ssc_group' => 'required',
+      'ssc_session' => 'required'
+    ];
 
+    $this->validate($request, Arr::collapse($rules));
+
+    $student = DB::table('student_info_hsc')->where('refference_id', $auto_id)->where('session', $admission_session)->first();
 
     if ($request->hasFile('photo')) {
       $photo = $request->file('photo');
       $folder = public_path('upload/college/hsc/' . $admission_session);
       create_dir($folder);
-
-      if (!empty($student->image) && \File::exists($folder . '/' . $student->image)) {
+      if (\File::exists($folder . '/' . $student->image)) {
         \File::delete($folder . '/' . $student->image);
       }
-
       $filename = rand(1, 99999999999) . '.jpg';
-      $upload_path = $folder . '/' . $filename;
+      $upload_path = public_path('upload/college/hsc/' . $admission_session . '/' . $filename);
       Image::make($photo->getRealPath())->save($upload_path);
 
       DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update([
@@ -875,80 +880,154 @@ class HSCAdmissionController extends Controller
       DB::table('student_info_hsc')->where('refference_id', $auto_id)->update([
         'image' => $filename
       ]);
-    } else {
-      DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update([
-        'photo' => $student->image
-      ]);
-
-      DB::table('student_info_hsc')->where('refference_id', $auto_id)->update([
-        'image' => $student->image
-      ]);
     }
 
 
-    $hsc_group = $request->get('hsc_group');
-    if ($hsc_group != '') {
-      $compulsorycourse = $request->get('compulsorycourse');
+    // NEW Added Optional image TODO::
+    //     if ($request->hasFile('photo')) {
+    //     $photo = $request->file('photo');
+    //     $folder = public_path('upload/college/hsc/' . $admission_session);
+    //     create_dir($folder);
 
-      $compulsorycourse =  implode(",", $compulsorycourse);
+    //     // পুরনো ফাইল থাকলে delete করো
+    //     if (!empty($student->image) && \File::exists($folder . '/' . $student->image)) {
+    //         \File::delete($folder . '/' . $student->image);
+    //     }
 
-      $selectivecourse = $request->get('selectivecourse');
-      $selectivecourse =  implode(",", $selectivecourse);
+    //     // নতুন ফাইলের নাম তৈরি ও save করা
+    //     $filename = rand(1, 99999999999) . '.jpg';
+    //     $upload_path = $folder . '/' . $filename;
+    //     Image::make($photo->getRealPath())->save($upload_path);
 
+    //     // নতুন ফাইল ডাটাবেজে আপডেট করা
+    //     DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update([
+    //         'photo' => $filename
+    //     ]);
+
+    //     DB::table('student_info_hsc')->where('refference_id', $auto_id)->update([
+    //         'image' => $filename
+    //     ]);
+    // } else {
+    //     // যদি নতুন image না আসে, তাহলে পুরনো image ই থাকবে
+    //     DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update([
+    //         'photo' => $student->image
+    //     ]);
+
+    //     DB::table('student_info_hsc')->where('refference_id', $auto_id)->update([
+    //         'image' => $student->image
+    //     ]);
+    // }
+
+
+
+
+    $dist = $request->same_as_present ? $request->get('present_dist') : $request->get('permanent_dist');
+    $thana = $request->same_as_present ? $request->get('present_ps') : $request->get('permanent_ps');
+
+    DB::beginTransaction();
+    try {
       DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update(
-        array('compulsory' => $compulsorycourse, 'selective' => $selectivecourse, 'optional' => $request->get('selecting'))
+        array(
+          'name' => $request->get('student_name'),
+          'bangla_name' => $request->get('bangla_name'),
+          'fathers_name' => $request->get('father_name'),
+          'fathers_nid' => $request->get('fathers_nid'),
+          'mothers_name' => $request->get('mother_name'),
+          'mothers_nid' => $request->get('mothers_nid'),
+          'guardian_name' => $request->get('guardian_name'),
+          'date_of_birth' => $request->get('birth_date'),
+          'mobile' => $request->get('contact_no'),
+          'ssc_roll' => $request->get('ssc_roll'),
+          'ssc_reg_no' => $request->get('ssc_registration'),
+          'ssc_board' => $request->get('ssc_board'),
+          'ssc_group' => $request->get('ssc_group'),
+          'ssc_institution' => $request->get('ssc_institute'),
+          'ssc_session' => $request->get('ssc_session'),
+          'ssc_gpa' => $request->get('ssc_gpa'),
+          'ssc_passing_year' => $request->ssc_passing_year,
+          'village' => $request->get('present_village'),
+          'post_office' => $request->get('present_po'),
+          'district' => $request->get('present_dist'),
+          'upozilla' => $request->get('present_ps'),
+          'permanent_village' => $request->get('permanent_village'),
+          'permanent_post_office' => $request->get('permanent_po'),
+          'permanent_district' => $dist,
+          'permanent_thana' => $thana,
+        )
       );
-
-      $courses =  DB::select("SELECT * FROM course_hsc_new WHERE `groups` = '" . $hsc_group . "'");
-
-      $cods = array();
-
-      foreach ($courses as $course) {
-        if (strpos($course->subjects, ',') !== FALSE) {
-          $subjects = explode(",", $course->subjects);
-          $codes = explode(",", $course->codes);
-          foreach ($subjects as $key => $subject) {
-            $cods[$codes[$key]] = $subject;
-          }
-        } else {
-          $cods[$course->codes] = $course->subjects;
-        }
-      }
-
-      $compulsory = explode(",", $compulsorycourse);
-      $selective = explode(",", $selectivecourse);
-      $optional = explode(",", $request->get('selecting'));
-
-      $compulsory_string = '';
-      $selective_string = '';
-      $optional_string = '';
-
-      foreach ($compulsory as $value) {
-        $compulsory_string .= $cods[$value] . "(" . $value . "),";
-      }
-      $compulsory_string = rtrim($compulsory_string, ",");
-
-      foreach ($selective as $value) {
-        $selective_string .= $cods[$value] . "(" . $value . "),";
-      }
-      $selective_string = rtrim($selective_string, ",");
-
-      foreach ($optional as $value) {
-        $optional_string .= $cods[$value] . "(" . $value . "),";
-      }
-      $optional_string = rtrim($optional_string, ",");
-
-      $compulsory_string = str_replace("-", ",", $compulsory_string);
-      $selective_string = str_replace("-", ",", $selective_string);
-      $optional_string = str_replace("-", ",", $optional_string);
-
-      $all_string = $compulsory_string . "," . $selective_string . "," . $optional_string;
 
       DB::table('student_info_hsc')->where('refference_id', $auto_id)->update(
-        array('hsc_subjects_info' => $all_string)
+        array('name' => $request->get('student_name'), 'father_name' => $request->get('father_name'), 'mother_name' => $request->get('mother_name'), 'guardian' => $request->get('guardian_name'), 'birth_date' => $request->get('birth_date'), 'contact_no' => $request->get('contact_no'), 'ssc_roll' => $request->get('ssc_roll'), 'gender' => $request->get('gender'), 'present_village' => $request->get('present_village'), 'present_po' => $request->get('present_po'), 'present_dist' => $request->get('present_dist'), 'present_ps' => $request->get('present_ps'), 'permanent_village' => $request->get('permanent_village'), 'permanent_po' => $request->get('permanent_po'), 'permanent_dist' => $dist, 'permanent_ps' => $thana, 'ssc_session' => $request->get('ssc_session'), 'ssc_reg_no' => $request->get('ssc_registration'), 'ssc_roll' => $request->get('ssc_roll'), 'ssc_passing_year' => $request->ssc_passing_year, 'ssc_board' => $request->ssc_board, 'ssc_group' => $request->ssc_group, 'gpa' => $request->ssc_gpa)
       );
-    }
 
-    return redirect()->route('student.hsc.admission.HscConfirmation')->with('success', "Admission Information Updated Successfully!");
+      $hsc_group = $request->get('hsc_group');
+      if ($hsc_group != '') {
+        $compulsorycourse = $request->get('compulsorycourse');
+
+        $compulsorycourse =  implode(",", $compulsorycourse);
+
+        $selectivecourse = $request->get('selectivecourse');
+        $selectivecourse =  implode(",", $selectivecourse);
+
+        DB::table('hsc_admitted_students')->where('auto_id', $auto_id)->update(
+          array('compulsory' => $compulsorycourse, 'selective' => $selectivecourse, 'optional' => $request->get('selecting'))
+        );
+
+        $courses =  DB::select("SELECT * FROM course_hsc_new WHERE `groups` = '" . $hsc_group . "'");
+
+        $cods = array();
+
+        foreach ($courses as $course) {
+          if (strpos($course->subjects, ',') !== FALSE) {
+            $subjects = explode(",", $course->subjects);
+            $codes = explode(",", $course->codes);
+            foreach ($subjects as $key => $subject) {
+              $cods[$codes[$key]] = $subject;
+            }
+          } else {
+            $cods[$course->codes] = $course->subjects;
+          }
+        }
+
+        $compulsory = explode(",", $compulsorycourse);
+        $selective = explode(",", $selectivecourse);
+        $optional = explode(",", $request->get('selecting'));
+
+        $compulsory_string = '';
+        $selective_string = '';
+        $optional_string = '';
+
+        foreach ($compulsory as $value) {
+          $compulsory_string .= $cods[$value] . "(" . $value . "),";
+        }
+        $compulsory_string = rtrim($compulsory_string, ",");
+
+        foreach ($selective as $value) {
+          $selective_string .= $cods[$value] . "(" . $value . "),";
+        }
+        $selective_string = rtrim($selective_string, ",");
+
+        foreach ($optional as $value) {
+          $optional_string .= $cods[$value] . "(" . $value . "),";
+        }
+        $optional_string = rtrim($optional_string, ",");
+
+        $compulsory_string = str_replace("-", ",", $compulsory_string);
+        $selective_string = str_replace("-", ",", $selective_string);
+        $optional_string = str_replace("-", ",", $optional_string);
+
+        $all_string = $compulsory_string . "," . $selective_string . "," . $optional_string;
+
+        DB::table('student_info_hsc')->where('refference_id', $auto_id)->update(
+          array('hsc_subjects_info' => $all_string)
+        );
+      }
+
+      return redirect()->route('student.hsc.admission.HscConfirmation')->with('success', "Admission Information Updated Successfully!");
+      DB::commit();
+    } catch (\Illuminate\Database\QueryException $e) {
+      DB::rollback();
+      return redirect()->back()->withInput()->with('error', $e->errorInfo[2]);
+    }
   }
 }

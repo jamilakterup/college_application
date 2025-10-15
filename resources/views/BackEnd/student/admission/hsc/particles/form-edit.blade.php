@@ -39,6 +39,16 @@
         </div>
 
         <div class="form-group">
+            <label for="class_roll" class="col-form-label">HSC Class Roll</label>
+            {!! Form::text('class_roll', @$student->class_roll ?? null, [
+                'class' => 'form-control',
+                'placeholder' => 'SSC Roll',
+                'required' => true,
+            ]) !!}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group">
             <label for="session" class="col-form-label">Admission Session</label>
             {!! Form::select('session', selective_multiple_session(), $student->session ?? null, [
                 'class' => 'form-control',

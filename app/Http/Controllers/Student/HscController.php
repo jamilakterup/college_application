@@ -415,6 +415,7 @@ class HscController extends Controller
                     'current_level' => $current_level,
                     'father_name' => $request->get('father_name'),
                     'mother_name' => $request->get('mother_name'),
+                    'class_roll' => $request->get('class_roll'),
                     'birth_date' => $request->get('birth_date'),
                     'gender' => $request->get('gender'),
                     'contact_no' => $request->get('student_mobile'),
