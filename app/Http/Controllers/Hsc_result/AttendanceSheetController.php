@@ -126,7 +126,6 @@ class AttendanceSheetController extends Controller
 
 	public function marklist(Request $request)
 	{
-
 		$title = 'Easy CollegeMate - HSC Result';
 		$breadcrumb = 'hsc_result.attendance_sheet.index:attendance sheet|Dashboard';
 
@@ -136,6 +135,8 @@ class AttendanceSheetController extends Controller
 		$current_level = Ecm::filterInput('current_year', $request->get('current_year'));
 		$exam_id = Ecm::filterInput('exam_id', $request->get('exam_id'));
 		$subject_id = Ecm::filterInput('subject_id', $request->get('subject_id'));
+
+
 
 
 		if ($session == '') :

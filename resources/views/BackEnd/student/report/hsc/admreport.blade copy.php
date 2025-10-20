@@ -12,6 +12,7 @@
 @endpush
 
 @section('content')
+
     <div class="panel">
         <div class="panel-body">
 
@@ -121,122 +122,95 @@
         </div>
     </div>
 
+    {{-- modal --}}
     <div class="modal fade" id="filter-modal" aria-hidden="true" aria-labelledby="examplePositionSidebar" role="dialog"
         tabindex="-1">
         <div class="modal-dialog modal-simple">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="examplePositionSidebar">Filter HSC Admission Report</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
+                    <h4 class="modal-title">Filter HSC Admission Report</h4>
                 </div>
-
                 <div class="modal-body">
-                    <form action="{{ route('report.hsc.admission') }}" method="POST" class="form-horizontal">
-                        @csrf
+                    {!! Form::open(['route' => 'report.hsc.admission', 'method' => 'post', 'class' => 'form-horizontal']) !!}
+                    <div class="form-group">
+                        {!! Form::text('id', $id, ['class' => 'form-control', 'placeholder' => 'Student ID']) !!}
+                    </div>
 
-                        <div class="form-group">
-                            <input type="text" name="id" value="{{ old('id', $id ?? '') }}" class="form-control"
-                                placeholder="Student ID">
-                            @error('id')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        {!! Form::text('ssc_roll', $ssc_roll, ['class' => 'form-control', 'placeholder' => 'SSC Roll']) !!}
+                    </div>
 
-                        <div class="form-group">
-                            <input type="text" name="ssc_roll" value="{{ old('ssc_roll', $ssc_roll ?? '') }}"
-                                class="form-control" placeholder="SSC Roll">
-                            @error('ssc_roll')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        {!! Form::select('groups', selective_hsc_groups(), $groups, [
+                            'class' => 'form-control group',
+                            'autocomplete' => 'off',
+                        ]) !!}
+                        {!! invalid_feedback('groups') !!}
+                    </div>
 
-                        <div class="form-group">
-                            <select name="groups" class="form-control group" autocomplete="off">
-                                <option value="">Select Group</option>
-                                @foreach (selective_hsc_groups() as $key => $label)
-                                    <option value="{{ $key }}"
-                                        {{ old('groups', $groups ?? '') == $key ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('groups')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        {!! Form::select('gender', selective_gender_list(), $gender, [
+                            'class' => 'form-control group',
+                            'autocomplete' => 'off',
+                        ]) !!}
+                        {!! invalid_feedback('gender') !!}
+                    </div>
 
-                        <div class="form-group">
-                            <select name="gender" class="form-control group" autocomplete="off">
-                                <option value="">Select Gender</option>
-                                @foreach (selective_gender_list() as $key => $label)
-                                    <option value="{{ $key }}"
-                                        {{ old('gender', $gender ?? '') == $key ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('gender')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        {!! Form::select('current_level', $current_level_lists, $current_level, [
+                            'class' => 'form-control group',
+                            'autocomplete' => 'off',
+                        ]) !!}
+                        {!! invalid_feedback('current_level') !!}
+                    </div>
 
-                        <div class="form-group">
-                            <select name="current_level" class="form-control group" autocomplete="off">
-                                <option value="">Select Level</option>
-                                @foreach ($current_level_lists as $key => $label)
-                                    <option value="{{ $key }}"
-                                        {{ old('current_level', $current_level ?? '') == $key ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('current_level')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        {!! Form::select('session', selective_multiple_session(), $session, [
+                            'class' => 'form-control session',
+                            'autocomplete' => 'off',
+                        ]) !!}
+                        {!! invalid_feedback('session') !!}
+                    </div>
 
-                        <div class="form-group">
-                            <select name="session" class="form-control session" autocomplete="off">
-                                <option value="">Select Session</option>
-                                @foreach (selective_multiple_session() as $key => $label)
-                                    <option value="{{ $key }}"
-                                        {{ old('session', $session ?? '') == $key ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('session')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                    <div class="form-group">
+                        <div class="input-daterange" data-plugin="datepicker">
+                            <div class="input-group mb-2">
+                                <span class="input-group-addon">
+                                    <i class="icon wb-calendar" aria-hidden="true"></i>
+                                </span>
+                                {!! Form::text('from_date', $from_date, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'From Date',
+                                    'autocomplete' => 'off',
+                                ]) !!}
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">to</span>
+                                {!! Form::text('to_date', $to_date, [
+                                    'class' => 'form-control',
+                                    'placeholder' => 'To Date',
+                                    'autocomplete' => 'off',
+                                ]) !!}
+                            </div>
 
-                        <div class="form-group">
-                            <div class="input-daterange" data-plugin="datepicker">
-                                <div class="input-group mb-2">
-                                    <span class="input-group-addon">
-                                        <i class="icon wb-calendar" aria-hidden="true"></i>
-                                    </span>
-                                    <input type="text" name="from_date" value="{{ 'from_date' }}"
-                                        class="form-control" placeholder="From Date" autocomplete="off">
-                                </div>
-
-                                <div class="input-group">
-                                    <span class="input-group-addon">to</span>
-                                    <input type="text" name="to_date" value="{{ 'to_date' }}"
-                                        class="form-control" placeholder="To Date" autocomplete="off">
-                                </div>
+                            <div class="input-group">
+                                <input type="date" name="to_date" id="to_date" class="form-control">
                             </div>
                         </div>
+                    </div>
 
-                        <button type="submit" class="btn btn-info btn-block">Search</button>
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
-                    </form>
+                    <button type="submit" class="btn btn-info btn-block">Search</button>
+                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
+                    {!! Form::close() !!}
                 </div>
-
             </div>
         </div>
     </div>
-
 @endsection
+
+@push('scripts')
+    <script></script>
+@endpush

@@ -232,6 +232,16 @@
 
                             @can('certificate.manage')
                                 <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('certificates/testimonial*') }}">
+                                        <a href="{{ route('certificates.testimonial.index') }}">
+                                            <span class="site-menu-title">Testimonial</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                            @can('certificate.manage')
+                                <ul class="site-menu-sub" style="">
                                     <li class="site-menu-item {{ active('certificates/character*') }}">
                                         <a href="{{ route('certificates.character.index') }}">
                                             <span class="site-menu-title">Character Certificate</span>
