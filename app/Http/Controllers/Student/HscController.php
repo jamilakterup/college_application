@@ -619,7 +619,6 @@ class HscController extends Controller
 
     public function totlistSelect()
     {
-
         $title = 'Easy CollegeMate - College Management';
         $breadcrumb = 'student.hsc:HSC|Tot List';
 
@@ -653,6 +652,7 @@ class HscController extends Controller
                     'student_info_hsc.permanent_dist',
                     'student_info_hsc.ssc_roll',
                     'student_info_hsc.contact_no',
+                    'hsc_admitted_students.religion',
                     'hsc_admitted_students.ssc_board',
                     'hsc_admitted_students.optional',
                     'student_info_hsc.merit_rank',
@@ -676,6 +676,7 @@ class HscController extends Controller
                 'SSC/Equ. Roll No',
                 'Contact No',
                 'Gender',
+                'Religion',
                 'Board',
                 'Rank',
                 'Course',
@@ -702,6 +703,7 @@ class HscController extends Controller
             echo "<th>SSC/Equ. Roll</th>";
             echo "<th>Contact No</th>";
             echo "<th>Gender</th>";
+            echo "<th>Religion</th>";
             echo "<th>Board</th>";
             echo "<th>Rank</th>";
             echo "<th>Course</th>";
@@ -770,6 +772,9 @@ class HscController extends Controller
 
                 echo "<td>{$result->gender}</td>";
                 H2H::make_line($result->gender);
+
+                echo "<td>{$result->religion}</td>";
+                H2H::make_line($result->religion);
 
 
                 echo "<td>{$result->ssc_board}</td>";

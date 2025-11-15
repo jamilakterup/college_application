@@ -37,6 +37,7 @@ class TestimonialController extends Controller
         $this->validate($request, [
             'student_id' => 'required|exists:student_info_hsc,id',
             'issue_date' => 'required|date',
+            'admission_roll' => 'required',
             'academic_year' => 'required|string|max:20',
             'class_name' => 'required|string|max:100',
             'ref_no' => 'nullable|string|max:100',
@@ -59,6 +60,7 @@ class TestimonialController extends Controller
         $testimonial->roll_no = $student->class_roll;
         $testimonial->student_type = $student->student_type;
         $testimonial->ref_no = $request->ref_no ?? $testimonial->generateRefNo();
+        $testimonial->admission_roll = $request->admission_roll;
         $testimonial->issued_by = auth()->id();
         $testimonial->save();
 
@@ -94,6 +96,7 @@ class TestimonialController extends Controller
             'class_name' => 'required|string|max:100',
             'admission_date' => 'nullable|date',
             'registration_no' => 'nullable|string|max:50',
+            'admission_roll' => 'nullable|string|max:50',
             'student_type' => 'nullable|string|max:50',
             'gpa' => 'nullable|string|max:50',
             'exam_year' => 'nullable|string|max:50',

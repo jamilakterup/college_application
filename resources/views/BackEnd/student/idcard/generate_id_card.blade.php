@@ -154,7 +154,7 @@ foreach($student_info as $key => $val) {
         if($category == 'hsc')
             $mpdf->WriteText($x_offset+14.5, $y_offset+38.3,$house ?? null);
         if($category != 'degree' && $category != 'hsc')
-            $mpdf->WriteText($x_offset+14.5, $y_offset+38.3,$dept_name ?? null);
+            $mpdf->WriteText($x_offset+14.5, $y_offset+38.3,$dept_name ?? null); 
     }else{
         if($category == 'hsc')
             $pagecount = $mpdf->SetSourceFile(app_path().'/Libs/hsc_idcard_frame_back.pdf');

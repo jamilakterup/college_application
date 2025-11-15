@@ -36,7 +36,7 @@ class MarkEntryController extends Controller
 
         // Filter and sanitize input
         $filters = ['session', 'group', 'current_year', 'exam_id', 'subject_id', 'exam_test', 'exam_year'];
-        $input = array_combine($filters, array_map(function($field) use ($request) {
+        $input = array_combine($filters, array_map(function ($field) use ($request) {
             return Ecm::filterInput($field, $request->get($field));
         }, $filters));
         // Validation checks
@@ -91,21 +91,32 @@ class MarkEntryController extends Controller
         // Use chunking for large datasets
         $chunkSize = 1000;
         $studentIds = collect();
-        
-        $studentQuery->chunk($chunkSize, function($students) use (&$studentIds) {
+
+        $studentQuery->chunk($chunkSize, function ($students) use (&$studentIds) {
             $studentIds = $studentIds->concat($students->pluck('id'));
         });
 
         // Cache frequently accessed data
         $cachedStudents = StudentInfoHsc::whereIn('id', $studentIds)
-            ->get(['id', 'name'])
+            ->get(['id', 'name', 'class_roll'])
             ->keyBy('id');
 
         // Define subject fields array
         $subjectFields = [
-            'sub1_id', 'sub2_id', 'sub3_id', 'sub4_id', 'sub5_id', 'sub6_id',
-            'sub21_id', 'sub22_id', 'sub23_id', 'sub24_id', 'sub25_id', 'sub26_id',
-            'fourth_id', 'fourth2_id'
+            'sub1_id',
+            'sub2_id',
+            'sub3_id',
+            'sub4_id',
+            'sub5_id',
+            'sub6_id',
+            'sub21_id',
+            'sub22_id',
+            'sub23_id',
+            'sub24_id',
+            'sub25_id',
+            'sub26_id',
+            'fourth_id',
+            'fourth2_id'
         ];
 
         $query = $this->buildSubjectQuery($subjectFields, $currentClass, $input, $studentIds);
@@ -122,6 +133,9 @@ class MarkEntryController extends Controller
                     $isDisabled ? 'disabled' : ''
                 );
             })
+            ->addColumn('student_roll', function ($row) use ($cachedStudents) {
+                return $cachedStudents[$row->student_id]->class_roll ?? '';
+            })
             ->addColumn('student_name', function ($row) use ($cachedStudents) {
                 return $cachedStudents[$row->student_id]->name ?? '';
             });
@@ -133,8 +147,8 @@ class MarkEntryController extends Controller
         foreach ($configExamParticles as $particle) {
             $particleId = $particle->xmparticle_id;
             $columnName = 'particle_' . $particleId;
-            
-            $datatable->addColumn($columnName, function($row) use ($input, $particle) {
+
+            $datatable->addColumn($columnName, function ($row) use ($input, $particle) {
                 return $this->generateSingleMarkInput($row, $input, $particle);
             });
 
@@ -189,7 +203,7 @@ class MarkEntryController extends Controller
                 ->where('group_id', $input['group'])
                 ->whereIn('student_id', $studentIds)
                 ->where($field, $input['subject_id']);
-                
+
             $query = $query ? $query->union($newQuery) : $newQuery;
         }
 
@@ -198,12 +212,12 @@ class MarkEntryController extends Controller
 
     private function generateSingleMarkInput($row, $input, $particle)
     {
-        $markQuery = $input['exam_test'] == 0 
+        $markQuery = $input['exam_test'] == 0
             ? \App\Models\Mark::query()
             : \App\Models\ClassTestMark::query();
 
         $modelClass = get_class($markQuery->getModel());
-        
+
         $mark = $markQuery
             ->where([
                 'student_id' => $row->student_id,
@@ -214,7 +228,7 @@ class MarkEntryController extends Controller
                 'subject_id' => $input['subject_id'],
                 'particle_id' => $particle->xmparticle_id,
             ])
-            ->when($input['exam_test'] != 0, function($q) use ($input) {
+            ->when($input['exam_test'] != 0, function ($q) use ($input) {
                 return $q->where('class_test_id', $input['exam_test']);
             })
             ->first();
@@ -247,7 +261,8 @@ class MarkEntryController extends Controller
         );
     }
 
-    public function checkModelPermission($modelClass){
+    public function checkModelPermission($modelClass)
+    {
         $roleId = auth()->user()->roles->first()->id ?? null;
 
         $modelConfig = DB::table('role_model_configs')
@@ -274,8 +289,8 @@ class MarkEntryController extends Controller
     public function saveMark(Request $request)
     {
         try {
-            $markModel = $request->exam_test_id == 0 
-                ? \App\Models\Mark::class 
+            $markModel = $request->exam_test_id == 0
+                ? \App\Models\Mark::class
                 : \App\Models\ClassTestMark::class;
 
             $current_level = $request->current_level;
@@ -297,18 +312,18 @@ class MarkEntryController extends Controller
             $mark = $request->mark;
             $converted_mark = null;
 
-            $config_exam_particle = ConfigExamParticle::where('classe_id',$current_level)
-                ->where('group_id',$request->group_id)
-                ->where('subject_id',$request->subject_id)
-                ->where('xmparticle_id',$request->particle_id)->first();
+            $config_exam_particle = ConfigExamParticle::where('classe_id', $current_level)
+                ->where('group_id', $request->group_id)
+                ->where('subject_id', $request->subject_id)
+                ->where('xmparticle_id', $request->particle_id)->first();
 
-            if(is_null($config_exam_particle)){
+            if (is_null($config_exam_particle)) {
                 throw new \Exception("Particle Not Found");
             }
 
             if (is_numeric($mark)) {
                 $converted_mark = ($mark * $config_exam_particle->per_centage) / 100;
-            }else{
+            } else {
                 $mark = strtoupper($mark);
                 $converted_mark = $mark;
             }
@@ -317,7 +332,7 @@ class MarkEntryController extends Controller
                 $data,
                 [
                     'mark' => $request->mark,
-                    'converted_mark'=> $converted_mark
+                    'converted_mark' => $converted_mark
                 ]
             );
 
@@ -326,5 +341,4 @@ class MarkEntryController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
-
 }

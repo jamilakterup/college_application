@@ -46,7 +46,7 @@
 
         @foreach($data as $groupName => $students)
         <div class="mb-5">
-            <div class="row">
+            <div class="row" style="color: #2b2a2a">
                 <div class="col-md-12 mb-4">
                     <div class="stats-box">
                         <div class="row text-center">

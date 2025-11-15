@@ -93,7 +93,6 @@
                     </thead>
 
                     <tbody>
-
                         @foreach ($hscstudents as $college)
                             <tr class="">
                                 <td>{{ $college->id }}</td>
@@ -106,7 +105,7 @@
                                 <td>{{ $college->groups }}</td>
                                 <td>{{ $college->current_level }}</td>
                                 <td>{{ $college->status }}</td>
-                                <td>{{ $college->payment_date }}</td>
+                                <td>{{ \Carbon\Carbon::parse($college->admission_date)->format('d-m-Y') }}</td>
                                 <td>{{ $college->total_amount }}</td>
 
                             </tr>

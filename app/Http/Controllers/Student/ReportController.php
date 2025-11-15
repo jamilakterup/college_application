@@ -17,70 +17,6 @@ class ReportController extends Controller
     return view('BackEnd.student.report.hsc.index');
   }
 
-  public function hsc_admission(Request $request)
-  {
-    $id = $request->get('id');
-    $ssc_roll = $request->get('ssc_roll');
-    $groups = $request->get('groups');
-    $gender = $request->get('gender');
-    $current_level = $request->get('current_level');
-    $session = $request->get('session');
-    $from_date = $request->from_date;
-    $to_date = $request->to_date;
-
-    $title = 'Easy CollegeMate - College Management';
-    $breadcrumb = 'student:Student Hsc Management|Dashboard';
-    $current_level_lists = selective_multiple_hsc_level();
-
-    // Students query
-    // $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session);
-    // $student_rolls = $query->pluck('ssc_roll')->toArray();
-    $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session, $from_date, $to_date);
-
-
-
-
-    // Convert dates to Y-m-d format if provided
-    $from_date = $from_date ? date('Y-m-d', strtotime($from_date)) : null;
-    $to_date   = $to_date   ? date('Y-m-d', strtotime($to_date))   : null;
-
-    // Invoice query with optional filters
-    $query_invoice = Invoice::where('type', 'hsc_admission')
-      ->where('status', 'Paid')
-      ->when($session, fn($q) => $q->where('admission_session', $session))
-      ->when($from_date, fn($q) => $q->whereDate('date_start', '>=', $from_date))
-      ->when($to_date, fn($q) => $q->whereDate('date_end', '<=', $to_date))
-      ->when($groups, fn($q) => $q->orderByRaw("FIELD(pro_group, ? ) DESC", [$groups]))
-      ->orderBy('update_date', 'DESC');
-
-    $total_amount = $query_invoice->sum('total_amount');
-
-    $invoices = $query_invoice->get();
-
-
-    $num_rows = $query->count();
-    $hscstudents = $query->paginate(Study::paginate());
-
-    return view('BackEnd.student.report.hsc.admreport', compact(
-      'title',
-      'breadcrumb',
-      'hscstudents',
-      'current_level_lists',
-      'id',
-      'ssc_roll',
-      'groups',
-      'gender',
-      'current_level',
-      'session',
-      'num_rows',
-      'from_date',
-      'to_date',
-      'total_amount',
-      'invoices'
-    ));
-  }
-
-
   // public function hsc_admission(Request $request)
   // {
   //   $id = $request->get('id');
@@ -96,42 +32,190 @@ class ReportController extends Controller
   //   $breadcrumb = 'student:Student Hsc Management|Dashboard';
   //   $current_level_lists = selective_multiple_hsc_level();
 
-  //   $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session);
-  //   $student_rolls = $query->pluck('ssc_roll')->toArray();
-  //   $total_amount = 0;
-  //   $admission_fee = 0;
+  //   // Students query
+  //   // $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session);
+  //   // $student_rolls = $query->pluck('ssc_roll')->toArray();
+  //   $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session, $from_date, $to_date);
 
+
+
+
+  //   // Convert dates to Y-m-d format if provided
   //   $from_date = $from_date ? date('Y-m-d', strtotime($from_date)) : null;
   //   $to_date   = $to_date   ? date('Y-m-d', strtotime($to_date))   : null;
 
-
-  //   $query_invoice = Invoice::where('type', 'hsc_admission')->where('status', 'Paid');
-  //   if ($session != '')    $query_invoice->where('admission_session', $session);
-  //   $query_invoice->whereIn('roll', $student_rolls);
-
-  //   if ($from_date != '') {
-  //     $from_date = date('Y-m-d', strtotime($request->from_date));
-  //     $query_invoice->where(DB::raw("(DATE_FORMAT(update_date,'%Y-%m-%d'))"), ">=", $from_date);
-  //   }
-
-  //   if ($to_date != '') {
-  //     $to_date = date('Y-m-d', strtotime($request->to_date));
-  //     $query_invoice->where(DB::raw("(DATE_FORMAT(update_date,'%Y-%m-%d'))"), '<=', $to_date);
-  //   }
+  //   // Invoice query with optional filters
+  //   $query_invoice = Invoice::where('type', 'hsc_admission')
+  //     ->where('status', 'Paid')
+  //     ->when($session, fn($q) => $q->where('admission_session', $session))
+  //     ->when($from_date, fn($q) => $q->whereDate('date_start', '>=', $from_date))
+  //     ->when($to_date, fn($q) => $q->whereDate('date_end', '<=', $to_date))
+  //     ->when($groups, fn($q) => $q->orderByRaw("FIELD(pro_group, ? ) DESC", [$groups]))
+  //     ->orderBy('update_date', 'DESC');
 
 
-  //   $invoices = $query_invoice->orderByRaw("FIELD(pro_group , '$groups') DESC");
+  //   dd($query_invoice);
+  //   $total_amount = $query_invoice->sum('total_amount');
+
   //   $invoices = $query_invoice->get();
-  //   // dd($invoices);
 
-  //   if (count($invoices)) {
-  //     $total_amount = $query_invoice->sum('total_amount');
-  //   }
+
   //   $num_rows = $query->count();
   //   $hscstudents = $query->paginate(Study::paginate());
 
-  //   return view('BackEnd.student.report.hsc.admreport', compact('title', 'breadcrumb', 'hscstudents', 'current_level_lists', 'id', 'ssc_roll', 'groups', 'gender', 'current_level', 'session', 'num_rows', 'from_date', 'to_date', 'total_amount'));
+  //   return view('BackEnd.student.report.hsc.admreport', compact(
+  //     'title',
+  //     'breadcrumb',
+  //     'hscstudents',
+  //     'current_level_lists',
+  //     'id',
+  //     'ssc_roll',
+  //     'groups',
+  //     'gender',
+  //     'current_level',
+  //     'session',
+  //     'num_rows',
+  //     'from_date',
+  //     'to_date',
+  //     'total_amount',
+  //     'invoices'
+  //   ));
   // }
+
+
+  public function hsc_admission(Request $request)
+  {
+    $id = $request->get('id');
+    $ssc_roll = $request->get('ssc_roll');
+    $groups = $request->get('groups');
+    $gender = $request->get('gender');
+    $current_level = $request->get('current_level');
+    $session = $request->get('session');
+    $from_date = $request->from_date;
+    $to_date = $request->to_date;
+
+    $title = 'Easy CollegeMate - College Management';
+    $breadcrumb = 'student:Student Hsc Management|Dashboard';
+    $current_level_lists = selective_multiple_hsc_level();
+
+    $query = Study::searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session, $from_date, $to_date);
+    $student_rolls = $query->pluck('ssc_roll')->toArray();
+    $total_amount = 0;
+    $admission_fee = 0;
+
+    $from_date = $from_date ? date('Y-m-d', strtotime($from_date)) : null;
+    $to_date   = $to_date   ? date('Y-m-d', strtotime($to_date))   : null;
+
+
+    $query_invoice = Invoice::where('type', 'hsc_admission')->where('status', 'Paid');
+    if ($session != '')    $query_invoice->where('admission_session', $session);
+    $query_invoice->whereIn('roll', $student_rolls);
+
+    if ($from_date != '') {
+      $query_invoice->where(DB::raw("(DATE_FORMAT(update_date,'%Y-%m-%d'))"), ">=", $from_date);
+    }
+
+    if ($to_date != '') {
+      $query_invoice->where(DB::raw("(DATE_FORMAT(update_date,'%Y-%m-%d'))"), '<=', $to_date);
+    }
+
+
+    $invoices = $query_invoice->orderByRaw("FIELD(pro_group , '$groups') DESC");
+    $invoices = $query_invoice->get();
+    // dd($invoices, $from_date, $to_date);
+    if (count($invoices)) {
+      $total_amount = $query_invoice->sum('total_amount');
+    }
+    $num_rows = $query->count();
+    $hscstudents = $query->paginate(Study::paginate());
+
+    return view('BackEnd.student.report.hsc.admreport', compact('title', 'breadcrumb', 'hscstudents', 'current_level_lists', 'id', 'ssc_roll', 'groups', 'gender', 'current_level', 'session', 'num_rows', 'from_date', 'to_date', 'total_amount'));
+  }
+
+  // public function generateHscAdmReport(Request $request)
+  // {
+  //   ini_set("pcre.backtrack_limit", "5000000");
+
+  //   if ($request->type == 'csv_dept_report') {
+  //     return $this->hsc_csv_dept_report($request);
+  //   }
+
+  //   $groups = $request->get('groups');
+  //   $gender = $request->get('gender');
+  //   $current_level = $request->get('current_level');
+  //   $session = $request->get('session');
+  //   $from_date = $request->from_date;
+  //   $to_date = $request->to_date;
+
+  //   $query = DB::table('student_info_hsc')->orderBy('id', 'asc');
+
+  //   if ($session != '')     $query->where('session', $session);
+  //   if ($current_level != '')    $query->where('current_level', $current_level);
+  //   if ($groups != '')    $query->where('groups', $groups);
+  //   if ($gender != '')    $query->where('gender', $gender);
+  //   if ($from_date != '' && $to_date != '') {
+  //     $query->whereBetween('admission_date', [$from_date, $to_date]);
+  //   } elseif ($from_date != '') {
+  //     $query->where('admission_date', '>=', $from_date);
+  //   } elseif ($to_date != '') {
+  //     $query->where('admission_date', '<=', $to_date);
+  //   }
+  //   // check permission
+  //   query_has_permissions($query, ['groups', 'current_level', 'session']);
+
+  //   $admissions = $query->get();
+  //   // TODO::
+
+  //   if ($request->get('type') == 'csv') {
+  //     $data[] = ['Student ID', 'Class Roll', 'Name', 'Father Name', 'Mother Name', 'Birth Date', 'SSC Roll', 'Group', 'Gender', 'Contact No', 'Current Level', 'Session', 'Payment Date', 'Total Amount'];
+
+  //     foreach ($admissions as $val) {
+  //       $invoice = Invoice::where('roll', $val->ssc_roll)->where('admission_session', $val->session)->where('type', 'hsc_admission')->where('ssc_board', $val->ssc_board)->get();
+  //       $amount = 0;
+  //       if (count($invoice) > 0) $amount = $invoice->first()->total_amount;
+
+  //       $data[] = [
+  //         $val->id,
+  //         $val->class_roll,
+  //         $val->name,
+  //         $val->father_name,
+  //         $val->mother_name,
+  //         $val->birth_date,
+  //         $val->ssc_roll,
+  //         $val->groups,
+  //         $val->gender,
+  //         $val->contact_no,
+  //         $val->current_level,
+  //         $val->session,
+  //         $val->payment_date,
+  //         $amount
+  //       ];
+  //     }
+  //     $filename = 'hsc_admission_reports.csv';
+  //     $file = fopen(public_path('temp/' . $filename), 'w');
+  //     foreach ($data as $row) {
+  //       fputcsv($file, (array) $row);
+  //     }
+  //     fclose($file);
+  //     $headers = array(
+  //       'Content-Type' => 'text/csv',
+  //     );
+
+  //     return response()->download(public_path() . '/temp/' . $filename, $filename, $headers);
+  //   }
+
+  //   $mpdf = new Mpdf();
+  //   $mpdf->ignore_invalid_utf8 = true;
+  //   $mpdf->autoScriptToLang = true;
+  //   $mpdf->autoVietnamese = true;
+  //   $mpdf->autoArabic = true;
+  //   $mpdf->autoLangToFont = true;
+  //   $mpdf->allow_charset_conversion = true;
+  //   $mpdf->charset_in = 'UTF-8';
+  //   $mpdf->WriteHTML(view('BackEnd.student.report.pdf.hscadmreport', compact('admissions', 'session')));
+  //   $mpdf->Output();
+  // }
+
 
   public function generateHscAdmReport(Request $request)
   {
@@ -148,24 +232,61 @@ class ReportController extends Controller
     $from_date = $request->from_date;
     $to_date = $request->to_date;
 
-    $query = DB::table('student_info_hsc')->orderBy('id', 'asc');
+    $query = DB::table('student_info_hsc as s')
+      ->leftJoin('invoices as i', function ($join) use ($session) {
+        $join->on('s.ssc_roll', '=', 'i.roll')
+          ->where('i.type', 'hsc_admission')
+          ->where('i.status', 'Paid');
+      })
+      ->select(
+        's.*',
+        'i.total_amount',
+        'i.transaction_details'
+      )
+      ->orderBy('s.id', 'asc');
 
-    if ($session != '')     $query->where('session', $session);
-    if ($current_level != '')    $query->where('current_level', $current_level);
-    if ($groups != '')    $query->where('groups', $groups);
-    if ($gender != '')    $query->where('gender', $gender);
+    if ($session != '')         $query->where('s.session', $session);
+    if ($current_level != '')   $query->where('s.current_level', $current_level);
+    if ($groups != '')          $query->where('s.groups', $groups);
+    if ($gender != '')          $query->where('s.gender', $gender);
+
+    if ($from_date != '' && $to_date != '') {
+      $query->whereBetween('s.admission_date', [$from_date, $to_date]);
+    } elseif ($from_date != '') {
+      $query->where('s.admission_date', '>=', $from_date);
+    } elseif ($to_date != '') {
+      $query->where('s.admission_date', '<=', $to_date);
+    }
+
     // check permission
     query_has_permissions($query, ['groups', 'current_level', 'session']);
 
     $admissions = $query->get();
 
+    // CSV export
     if ($request->get('type') == 'csv') {
-      $data[] = ['Student ID', 'Class Roll', 'Name', 'Father Name', 'Mother Name', 'Birth Date', 'SSC Roll', 'Group', 'Gender', 'Contact No', 'Current Level', 'Session', 'Payment Date', 'Total Amount'];
+      $data[] = [
+        'Student ID',
+        'Class Roll',
+        'Name',
+        'Father Name',
+        'Mother Name',
+        'Birth Date',
+        'SSC Roll',
+        'Group',
+        'Gender',
+        'Contact No',
+        'Current Level',
+        'Session',
+        'Payment Date',
+        'Total Amount',
+        'Success Date'
+      ];
 
       foreach ($admissions as $val) {
-        $invoice = Invoice::where('roll', $val->ssc_roll)->where('admission_session', $val->session)->where('type', 'hsc_admission')->where('ssc_board', $val->ssc_board)->get();
-        $amount = 0;
-        if (count($invoice) > 0) $amount = $invoice->first()->total_amount;
+        $trx = $val->transaction_details ? json_decode($val->transaction_details, true) : [];
+        $successDate = $trx['success_date_time'] ?? $val->payment_date;
+        $totalAmount = $val->total_amount ?? 0;
 
         $data[] = [
           $val->id,
@@ -181,22 +302,23 @@ class ReportController extends Controller
           $val->current_level,
           $val->session,
           $val->payment_date,
-          $amount
+          $totalAmount,
+          $successDate
         ];
       }
+
       $filename = 'hsc_admission_reports.csv';
       $file = fopen(public_path('temp/' . $filename), 'w');
       foreach ($data as $row) {
         fputcsv($file, (array) $row);
       }
       fclose($file);
-      $headers = array(
-        'Content-Type' => 'text/csv',
-      );
+      $headers = ['Content-Type' => 'text/csv'];
 
-      return response()->download(public_path() . '/temp/' . $filename, $filename, $headers);
+      return response()->download(public_path('temp/' . $filename), $filename, $headers);
     }
 
+    // PDF generation
     $mpdf = new Mpdf();
     $mpdf->ignore_invalid_utf8 = true;
     $mpdf->autoScriptToLang = true;
@@ -208,6 +330,7 @@ class ReportController extends Controller
     $mpdf->WriteHTML(view('BackEnd.student.report.pdf.hscadmreport', compact('admissions', 'session')));
     $mpdf->Output();
   }
+
 
   public function hsc_csv_dept_report($request)
   {

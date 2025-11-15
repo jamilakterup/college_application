@@ -497,7 +497,6 @@ class Study
 
 	public static function searchHscStudent($id, $ssc_roll, $groups, $gender, $current_level, $session, $from_date = null, $to_date = null)
 	{
-
 		$outcomes = StudentInfoHsc::where(function ($query) use ($id, $ssc_roll, $groups, $gender, $current_level, $session, $from_date, $to_date) {
 
 			if (!empty($id)) {

@@ -1,53 +1,123 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>HSC Admission Student Lists, Session-{{$session}}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HSC Admission Student Lists, Session-{{ $session }}</title>
 </head>
+
 <body>
-<style>
-.page-break {
-                page-break-after: always;
-            }
-html, body, div,fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,{margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align:top;}:focus {outline: 0;}
+    <style>
+        .page-break {
+            page-break-after: always;
+        }
 
-table {border-collapse: collapse; border-spacing: 0;} input, select {vertical-align:middle;} abbr[title], dfn[title] {border-bottom:1px dotted; cursor:help;} 
-body {font-family: 'FreeSerif',sans-serif;}
-td.title{ font-size:12px; line-height:36px; color:#000;}
-td.subtitle{ font-size:12px; line-height:30px; color:#000;}
-td.mintitle{ font-size:12px; line-height:24px; color:#000;}
-.order-details tr, .order-details tr td{ border:1px solid #cecece; padding:5px 10px;}
+        html,
+        body,
+        div,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-weight: inherit;
+        font-style: inherit;
+        font-size: 100%;
+        font-family: inherit;
+        vertical-align: top;
+        }
 
-</style>
+        :focus {
+            outline: 0;
+        }
 
-<h2 style="text-align: center;">HSC Admission Student Lists {{$session !='' ? 'Session: '.$session:''}}</h2>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
-<table class="order-details" border="1" width="100%" style="margin-top:10px;">
-	
-	<tr>
-	    <th style="border:1px solid #cecece;">Student ID</th>
-		<th style="border:1px solid #cecece;">SSC Roll</th>
-		<th style="border:1px solid #cecece;">Name</th>
-		<th style="border:1px solid #cecece;">Group Name</th>
-		<th style="border:1px solid #cecece;">Contact No</th>
-		<th style="border:1px solid #cecece;">Payment Date</th>
-		<th style="border:1px solid #cecece;">Total Amount</th>
-	</tr>
-<?php $si=0; ?>
-	<?php foreach($admissions as $adm) {?>
-				<tr class="">
-				    <td style="font-size:12px;"><?php echo $adm->id ?></td>
-					<td style="font-size:12px;">{{$adm->ssc_roll}}</td>
-					<td style="font-size:12px;"><?php echo $adm->name ?></td>
-					<td style="font-size:12px;"><?php echo $adm->groups ?></td>	
-					<td style="font-size:12px;"><?php echo $adm->contact_no ?></td>
-					<td style="font-size:12px;"><?php echo $adm->payment_date ?></td>
-					<td style="font-size:12px;"><?php echo $adm->total_amount ?></td>
-				</tr>	
+        input,
+        select {
+            vertical-align: middle;
+        }
 
-			<?php } ?>
+        abbr[title],
+        dfn[title] {
+            border-bottom: 1px dotted;
+            cursor: help;
+        }
 
-</table>
-   
+        body {
+            font-family: 'FreeSerif', sans-serif;
+        }
+
+        td.title {
+            font-size: 12px;
+            line-height: 36px;
+            color: #000;
+        }
+
+        td.subtitle {
+            font-size: 12px;
+            line-height: 30px;
+            color: #000;
+        }
+
+        td.mintitle {
+            font-size: 12px;
+            line-height: 24px;
+            color: #000;
+        }
+
+        .order-details tr,
+        .order-details tr td {
+            border: 1px solid #cecece;
+            padding: 5px 10px;
+        }
+    </style>
+
+    <h2 style="text-align: center;">HSC Admission Student Lists {{ $session != '' ? 'Session: ' . $session : '' }}</h2>
+
+    <table class="order-details" border="1" width="100%" style="margin-top:10px;">
+
+        <tr>
+            <th style="border:1px solid #cecece;">Student ID</th>
+            <th style="border:1px solid #cecece;">SSC Roll</th>
+            <th style="border:1px solid #cecece;">Name</th>
+            <th style="border:1px solid #cecece;">Group Name</th>
+            <th style="border:1px solid #cecece;">Contact No</th>
+            <th style="border:1px solid #cecece;">Admission Date</th>
+            <th style="border:1px solid #cecece;">Total Amount</th>
+        </tr>
+        <?php $si = 0; ?>
+        <?php foreach($admissions as $adm) {?>
+        <tr>
+            <td style="font-size:12px;"><?php echo $adm->id; ?></td>
+            <td style="font-size:12px;">{{ $adm->ssc_roll }}</td>
+            <td style="font-size:12px;"><?php echo $adm->name; ?></td>
+            <td style="font-size:12px;"><?php echo $adm->groups; ?></td>
+            <td style="font-size:12px;"><?php echo $adm->contact_no; ?></td>
+            <td style="font-size:12px;">{{ \Carbon\Carbon::parse($adm->admission_date)->format('d-m-Y') }}</td>
+            <td style="font-size:12px;"><?php echo $adm->total_amount; ?></td>
+        </tr>
+
+        <?php } ?>
+
+    </table>
+
 </body>
+
 </html>

@@ -17,10 +17,11 @@
                 'student_id',
                 $students->pluck('name', 'id'),
                 old('student_id', isset($testimonial) ? $testimonial->student_id : null),
-                ['class' => 'form-control select2', 'id' => 'student_id', 'placeholder' => 'Select Student', 'required'],
+                ['class' => 'form-control', 'id' => 'student_id', 'placeholder' => 'Select Student', 'required'],
             ) !!}
         </div>
     </div>
+
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('issue_date', 'Issue Date <span class="text-danger">*</span>', [], false) !!}
@@ -48,9 +49,6 @@
         </div>
     </div>
 
-</div>
-
-<div class="row">
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('academic_year', 'Academic Year <span class="text-danger">*</span>', [], false) !!}
@@ -58,7 +56,7 @@
                 'academic_year',
                 selective_multiple_exam_year(),
                 old('academic_year', isset($testimonial) ? $testimonial->academic_year : null),
-                ['class' => 'form-control select2', 'id' => 'academic_year', 'required'],
+                ['class' => 'form-control', 'id' => 'academic_year', 'required'],
             ) !!}
         </div>
     </div>
@@ -73,9 +71,21 @@
             ) !!}
         </div>
     </div>
-</div>
 
-<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {!! Form::label('admission_roll', 'HSC Admission Roll', [], false) !!}
+            {!! Form::text(
+                'admission_roll',
+                old(
+                    'admission_roll',
+                    isset($testimonial) && isset($testimonial->admission_roll) ? $testimonial->admission_roll : null,
+                ),
+                ['class' => 'form-control', 'id' => 'admission_roll'],
+            ) !!}
+        </div>
+    </div>
+
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('admission_date', 'Admission Date') !!}
@@ -89,6 +99,7 @@
             ) !!}
         </div>
     </div>
+
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('registration_no', 'Registration No') !!}
@@ -99,9 +110,7 @@
             ) !!}
         </div>
     </div>
-</div>
 
-<div class="row">
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('study_period_from', 'Study Period From') !!}
@@ -132,9 +141,7 @@
             ) !!}
         </div>
     </div>
-</div>
 
-<div class="row">
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('gpa', 'GPA') !!}
@@ -152,13 +159,11 @@
                 'exam_year',
                 selective_multiple_exam_year(),
                 old('exam_year', isset($testimonial) ? $testimonial->exam_year : null),
-                ['class' => 'form-control select2', 'id' => 'exam_year'],
+                ['class' => 'form-control', 'id' => 'exam_year'],
             ) !!}
         </div>
     </div>
-</div>
 
-<div class="row">
     <div class="col-md-6">
         <div class="form-group">
             {!! Form::label('attendance_percentage', 'Attendance Percentage') !!}

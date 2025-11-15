@@ -529,7 +529,6 @@ class HSCAdmissionController extends Controller
 
   public function admisionLogout()
   {
-
     Auth::logout();
     Session::flush();
     return Redirect::route('student.hsc.admission.signin');
