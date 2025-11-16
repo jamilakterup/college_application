@@ -582,8 +582,7 @@ class ResultProcessingController extends Controller
 			$mpdf->allow_charset_conversion = true;
 			$mpdf->charset_in = 'UTF-8';
 			$html = view('BackEnd.hsc_result.download.tabulation_excel', compact('id'));
-			$mpdf->writeHTML($html);
-			// $mpdf->Output();					
+			$mpdf->writeHTML($html);			
 		}
 	}
 

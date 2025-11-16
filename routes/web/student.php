@@ -220,6 +220,29 @@ Route::group(['prefix' => 'students/degree','namespace'=>'Student', 'middleware'
 
 });
 
+// Subject Management Routes
+Route::group(['prefix' => 'students', 'namespace'=>'Student', 'middleware' => 'auth'],function() {
+
+	// Course Subject Routes
+	Route::get('/course-subject', 'CourseSubjectController@index')->name('students.course-subject.index');
+	Route::get('/course-subject/create', 'CourseSubjectController@create')->name('students.course-subject.create');
+	Route::post('/course-subject/store', 'CourseSubjectController@store')->name('students.course-subject.store');
+	Route::get('/course-subject/edit/{id}', 'CourseSubjectController@edit')->name('students.course-subject.edit');
+	Route::put('/course-subject/update/{id}', 'CourseSubjectController@update')->name('students.course-subject.update');
+	Route::delete('/course-subject/destroy/{id}', 'CourseSubjectController@destroy')->name('students.course-subject.destroy');
+	Route::get('/course-subject/datasource', 'CourseSubjectController@datasource')->name('students.course-subject.datasource');
+
+	// Subject Combination Routes
+	Route::get('/combination', 'SubjectCombinationController@index')->name('students.combination.index');
+	Route::get('/combination/create', 'SubjectCombinationController@create')->name('students.combination.create');
+	Route::post('/combination/store', 'SubjectCombinationController@store')->name('students.combination.store');
+	Route::get('/combination/edit/{id}', 'SubjectCombinationController@edit')->name('students.combination.edit');
+	Route::put('/combination/update/{id}', 'SubjectCombinationController@update')->name('students.combination.update');
+	Route::delete('/combination/destroy/{id}', 'SubjectCombinationController@destroy')->name('students.combination.destroy');
+	Route::get('/combination/datasource', 'SubjectCombinationController@datasource')->name('students.combination.datasource');
+
+});
+
 // Masters Controller
 Route::group(['prefix' => 'students/masters','namespace'=>'Student', 'middleware' => 'auth'],function() {
 
@@ -356,6 +379,9 @@ Route::group(['namespace'=>'Student\Attendance', 'middleware' => 'auth', 'prefix
 	
 	Route::get('attendance-sms-log', 'StudentAttendanceController@smsLog')->name('students.attendance-sms-log');
 	Route::post('attendance-sms-log-datasource', 'StudentAttendanceController@smsLogDatasource')->name('students.attendance-sms-log-datasource');
+
+
+
 });
 
 Route::group(['as'=> 'student.','namespace'=>'Student\Report', 'middleware' => 'auth', 'prefix' => 'students/fees-payment', ''],function() {
