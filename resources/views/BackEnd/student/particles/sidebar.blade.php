@@ -369,6 +369,70 @@
                             </ul>
                         @endcan
 
+
+                        {{-- FeesPayment Management Section --}}
+                        @canany(['student.fees-eligibility.manage', 'student.fees-payment.control',
+                            'student.fees-eligibility.csv-upload', 'student.registration.csv-upload'])
+                        <li
+                            class="site-menu-item has-sub {{ has_sub_open(['students/fees-eligibility*', 'students/fees-payment*', 'students/registration-csv*']) }}">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon fa fa-credit-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">FeesPayment</span>
+                                <span class="site-menu-arrow"></span>
+                            </a>
+
+                            @can('student.fees-eligibility.manage')
+                                <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('students/fees-configuration*') }}">
+                                        <a href="{{ route('student.fees-configuration.index') }}">
+                                            <span class="site-menu-title">Configuration Management</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                            @can('student.fees-eligibility.manage')
+                                <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('students/fees-eligibility*') }}">
+                                        <a href="{{ route('student.fees-eligibility.index') }}">
+                                            <span class="site-menu-title">Eligibility Management</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                            @can('student.fees-eligibility.csv-upload')
+                                <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('students/fees-eligibility/csv-upload*') }}">
+                                        <a href="{{ route('student.fees-eligibility.csv-upload') }}">
+                                            <span class="site-menu-title">CSV Eligibility Upload</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                            @can('student.registration.csv-upload')
+                                <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('students/registration-csv*') }}">
+                                        <a href="{{ route('student.registration.csv-upload') }}">
+                                            <span class="site-menu-title">CSV Registration Update</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                            @can('student.fees-payment.control')
+                                <ul class="site-menu-sub" style="">
+                                    <li class="site-menu-item {{ active('students/fees-payment/report*') }}">
+                                        <a href="{{ route('student.fees-payment.report') }}">
+                                            <span class="site-menu-title">Fees Payment Report</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endcan
+
+                        </li>
+                    @endcanany
                     </li>
 
                 </ul>

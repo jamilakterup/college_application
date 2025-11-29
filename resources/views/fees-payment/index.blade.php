@@ -5,43 +5,43 @@
 @section('section-title', 'Check Eligibility for Fees Payment')
 @section('content')
 <div class="form-container">
+    <!-- Configuration Details Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-file-invoice-dollar me-2"></i>Fees Header Details</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Title:</strong> {{ $config->title }}</p>
+                    <p><strong>Course:</strong> {{ $config->getCourseName() }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Level:</strong> {{ $config->level }}</p>
+                    <p><strong>Session:</strong> {{ $config->academic_session }}</p>
+                </div>
+            </div>
+            <a href="{{ route('fees-payment.index') }}" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back
+            </a>
+        </div>
+    </div>
+
     <form action="{{ route('fees.check-eligibility') }}" method="POST" class="needs-validation" novalidate>
         @csrf
         
         <div class="mb-4">
-            <label for="registration_id" class="form-label fw-bold">Registration ID</label>
-            <input type="text" class="form-control @error('registration_id') is-invalid @enderror" 
-                    id="registration_id" name="registration_id" 
-                    placeholder="Enter your registration ID" 
-                    value="{{ old('registration_id') }}" required>
-            @error('registration_id')
+            <label for="reference_id" class="form-label fw-bold">Student/Reg ID</label>
+            <input type="text" class="form-control @error('reference_id') is-invalid @enderror" 
+                    id="reference_id" name="reference_id" 
+                    placeholder="Enter your Student/Reg ID" 
+                    value="{{ old('reference_id') }}" required>
+            @error('reference_id')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
-            <div class="form-text">Enter your student registration ID as provided by the institution</div>
-        </div>
-        
-        <div class="mb-4">
-            <label for="current_level" class="form-label fw-bold">Current Level</label>
-            {!! Form::select('current_level', $courseLevelOptions, null, ['placeholder'=>'Select Level', 'class'=>'form-select' ,'required'=>true, 'id'=> 'current_level']) !!}
-
-            @error('current_level')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-
-        <div class="mb-4">
-            <label for="academic_session" class="form-label fw-bold">Session</label>
-            {!! Form::select('academic_session', selective_multiple_session(), null, ['class'=>'form-select' ,'required'=>true, 'id'=> 'academic_session']) !!}
-
-            @error('academic_session')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            <div class="form-text">Enter your student/reg ID as provided by the institution</div>
         </div>
         
         <div class="d-grid gap-2">

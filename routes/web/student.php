@@ -1,54 +1,53 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 //Students Route
-Route::group(['prefix' => 'students', 'namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 
-        Route::get('/', ['as' => 'student', 'uses' => 'StudentController@student']);
-        // Route::get('honours', ['as' => 'student.honours', 'uses' => 'HonoursController@student']);
+	Route::get('/', ['as' => 'student', 'uses' => 'StudentController@student']);
+	// Route::get('honours', ['as' => 'student.honours', 'uses' => 'HonoursController@student']);
 
-        Route::post('/drop',function()
-		{
+	Route::post('/drop', function () {
 
-           if(Request::ajax()){
-           		//$groups=Input::get('groups');
-           		echo "hklk";
-           		echo json_encode("hello");	
-			}
-		});
+		if (Request::ajax()) {
+			//$groups=Input::get('groups');
+			echo "hklk";
+			echo json_encode("hello");
+		}
+	});
 
-		// Probale List Section
-		
-		Route::get('merit-list', 'MeritListController@index')->name('student.meritlist.index');
-		// index
-		Route::get('merit-list/honours', 'MeritListController@honours_index')->name('student.meritlist.honours');
-		Route::get('merit-list/masters', 'MeritListController@masters_index')->name('student.meritlist.masters');
-		Route::get('merit-list/degree', 'MeritListController@degree_index')->name('student.meritlist.degree');
-		Route::get('merit-list/hsc', 'MeritListController@hsc_index')->name('student.meritlist.hsc');
-		Route::get('merit-list/create', 'MeritListController@create')->name('student.meritlist.create');
-		// datasource
-		Route::post('merit-list/honours/datasource', 'MeritListController@honours_datasource')->name('student.meritlist.honours.datasource');
-		Route::post('merit-list/masters/datasource', 'MeritListController@masters_datasource')->name('student.meritlist.masters.datasource');
-		Route::post('merit-list/degree/datasource', 'MeritListController@degree_datasource')->name('student.meritlist.degree.datasource');
-		Route::post('merit-list/hsc/datasource', 'MeritListController@hsc_datasource')->name('student.meritlist.hsc.datasource');
-		// edit
-		Route::get('merit-list/honours/edit/{auto_id}', 'MeritListController@honours_edit')->name('student.meritlist.honours.edit');
-		Route::get('merit-list/masters/edit/{auto_id}', 'MeritListController@masters_edit')->name('student.meritlist.masters.edit');
-		Route::get('merit-list/degree/edit/{auto_id}', 'MeritListController@degree_edit')->name('student.meritlist.degree.edit');
-		Route::get('merit-list/hsc/edit/{auto_id}', 'MeritListController@hsc_edit')->name('student.meritlist.hsc.edit');
-		// store/update
-		Route::post('merit-list/honours/store', 'MeritListController@honours_store')->name('student.meritlist.honours.store');
-		Route::post('merit-list/masters/store', 'MeritListController@masters_store')->name('student.meritlist.masters.store');
-		Route::post('merit-list/degree/store', 'MeritListController@degree_store')->name('student.meritlist.degree.store');
-		Route::post('merit-list/hsc/store', 'MeritListController@hsc_store')->name('student.meritlist.hsc.store');
-		// essentials
-		Route::get('merit-list/upload', 'MeritListController@upload')->name('student.meritlist.upload');
-		Route::post('merit-list/upload/exe', 'MeritListController@upload_exe')->name('student.meritlist.upload.exe');
-		Route::delete('merit-list/destroy', 'MeritListController@destroy')->name('student.meritlist.destroy');
-       
+	// Probale List Section
+
+	Route::get('merit-list', 'MeritListController@index')->name('student.meritlist.index');
+	// index
+	Route::get('merit-list/honours', 'MeritListController@honours_index')->name('student.meritlist.honours');
+	Route::get('merit-list/masters', 'MeritListController@masters_index')->name('student.meritlist.masters');
+	Route::get('merit-list/degree', 'MeritListController@degree_index')->name('student.meritlist.degree');
+	Route::get('merit-list/hsc', 'MeritListController@hsc_index')->name('student.meritlist.hsc');
+	Route::get('merit-list/create', 'MeritListController@create')->name('student.meritlist.create');
+	// datasource
+	Route::post('merit-list/honours/datasource', 'MeritListController@honours_datasource')->name('student.meritlist.honours.datasource');
+	Route::post('merit-list/masters/datasource', 'MeritListController@masters_datasource')->name('student.meritlist.masters.datasource');
+	Route::post('merit-list/degree/datasource', 'MeritListController@degree_datasource')->name('student.meritlist.degree.datasource');
+	Route::post('merit-list/hsc/datasource', 'MeritListController@hsc_datasource')->name('student.meritlist.hsc.datasource');
+	// edit
+	Route::get('merit-list/honours/edit/{auto_id}', 'MeritListController@honours_edit')->name('student.meritlist.honours.edit');
+	Route::get('merit-list/masters/edit/{auto_id}', 'MeritListController@masters_edit')->name('student.meritlist.masters.edit');
+	Route::get('merit-list/degree/edit/{auto_id}', 'MeritListController@degree_edit')->name('student.meritlist.degree.edit');
+	Route::get('merit-list/hsc/edit/{auto_id}', 'MeritListController@hsc_edit')->name('student.meritlist.hsc.edit');
+	// store/update
+	Route::post('merit-list/honours/store', 'MeritListController@honours_store')->name('student.meritlist.honours.store');
+	Route::post('merit-list/masters/store', 'MeritListController@masters_store')->name('student.meritlist.masters.store');
+	Route::post('merit-list/degree/store', 'MeritListController@degree_store')->name('student.meritlist.degree.store');
+	Route::post('merit-list/hsc/store', 'MeritListController@hsc_store')->name('student.meritlist.hsc.store');
+	// essentials
+	Route::get('merit-list/upload', 'MeritListController@upload')->name('student.meritlist.upload');
+	Route::post('merit-list/upload/exe', 'MeritListController@upload_exe')->name('student.meritlist.upload.exe');
+	Route::delete('merit-list/destroy', 'MeritListController@destroy')->name('student.meritlist.destroy');
 });
 
-Route::group(['namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['namespace' => 'Student', 'middleware' => 'auth'], function () {
 
 	Route::any('/hsc/2nd/promotion', ['as' => 'student.hsc.2nd.promotion.index', 'uses' => 'Hsc2ndYearController@hsc_2nd_year_promotion']);
 
@@ -57,17 +56,17 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth'],function() {
 	Route::post('/hsc/promotion/action', ['as' => 'student.hsc.promotion.invoice.action', 'uses' => 'Hsc2ndYearController@invoice_action']);
 
 	// StudentFormFillupController
-	Route::group(['before' => 'auth','prefix' => 'formfillup'],function() {
+	Route::group(['before' => 'auth', 'prefix' => 'formfillup'], function () {
 		Route::any('/degree', ['as' => 'student.formfillup.degree', 'uses' => 'StudentsFormfillupController@degreeformfillup']);
 		Route::any('/honours', ['as' => 'student.formfillup.honours', 'uses' => 'StudentsFormfillupController@honoursformfillup']);
 		Route::any('/masters', ['as' => 'student.formfillup.masters', 'uses' => 'StudentsFormfillupController@mastersformfillup']);
 
 		// hsc ff reports
-	    Route::resource('form', 'StudentsFormfillupController');
+		Route::resource('form', 'StudentsFormfillupController');
 		Route::any('/ffsearch', ['as' => 'students.formfillup.search', 'uses' => 'StudentsFormfillupController@Search']);
 
 		Route::any('/ffreport', ['as' => 'student.formfillup.report', 'uses' => 'StudentsFormfillupController@generateFFReport']);
-	    Route::any('/hscformfillup', ['as' => 'student.formfillup.hscformfillup', 'uses' => 'StudentsFormfillupController@hscformfillup']);
+		Route::any('/hscformfillup', ['as' => 'student.formfillup.hscformfillup', 'uses' => 'StudentsFormfillupController@hscformfillup']);
 		Route::any('/hscffsearch', ['as' => 'student.hscformfillup.search', 'uses' => 'StudentsFormfillupController@hscSearch']);
 		Route::any('/hscffreport', ['as' => 'student.hscformfillup.report', 'uses' => 'Hsc2ndYearController@hscgenerateFFReport']);
 
@@ -86,7 +85,7 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth'],function() {
 		Route::any('/mastersffreport', ['as' => 'student.formfillup.mastersffreport', 'uses' => 'StudentsFormfillupController@generateMastersFFReport']);
 
 		// Probale List Section
-		
+
 		Route::get('probable-list', 'ProbableListController@index')->name('student.prblist.index');
 		// index
 		Route::get('probable-list/honours', 'ProbableListController@honours_index')->name('student.prblist.honours');
@@ -114,9 +113,9 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth'],function() {
 		Route::post('probable-list/upload/exe', 'ProbableListController@upload_exe')->name('student.prblist.upload.exe');
 		Route::delete('probable-list/destroy', 'ProbableListController@destroy')->name('student.prblist.destroy');
 	});
-	
+
 	// StudentApplicationController
-	Route::group(['before' => 'auth','prefix' => 'application'],function() {
+	Route::group(['before' => 'auth', 'prefix' => 'application'], function () {
 
 		//honours app report
 		Route::any('/honours', ['as' => 'student.application.honours', 'uses' => 'StudentApplicationController@honoursapplication']);
@@ -135,12 +134,10 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth'],function() {
 		Route::any('/mastersappreport', ['as' => 'student.application.mastersAppreport', 'uses' => 'StudentApplicationController@generateMastersAppReport']);
 	});
 
-	Route::get('/student/applicaton/download/{type}/{id}', ['as'=> 'student.applicaton.download', 'uses'=>'StudentApplicationController@getApplicationDownload']);
-
-
+	Route::get('/student/applicaton/download/{type}/{id}', ['as' => 'student.applicaton.download', 'uses' => 'StudentApplicationController@getApplicationDownload']);
 });
 
-Route::group(['before' => 'auth', 'prefix' => 'students/hsc','namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['before' => 'auth', 'prefix' => 'students/hsc', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 
 	Route::get('/', 'HscController@index')->name('student.hsc');
 	Route::get('/new', 'HscController@create')->name('students.hsc.create');
@@ -149,56 +146,53 @@ Route::group(['before' => 'auth', 'prefix' => 'students/hsc','namespace'=>'Stude
 	Route::delete('/destroy/{id}', 'HscController@destroy')->name('students.hsc.destroy');
 	Route::post('/force-promotion', 'HscController@force_promotion')->name('students.hsc.force_promotion');
 	Route::post('/datasource', 'HscController@datasource')->name('students.hsc.datasource');
-    Route::get('/print/{id}', ['as' => 'students.hsc.print', 'uses' => 'HscController@printDetails']);
-		
-		Route::any('/hscTcStudents', ['as' => 'students.hsc.hsctcstudents', 'uses' => 'HscController@hscTcStudents']);
-		
-		Route::any('/hscTcStudentSearch', ['as' => 'students.hsc.hsctcstudentsearch', 'uses' => 'HscController@hscTcStudentSearch']);
+	Route::get('/print/{id}', ['as' => 'students.hsc.print', 'uses' => 'HscController@printDetails']);
+
+	Route::any('/hscTcStudents', ['as' => 'students.hsc.hsctcstudents', 'uses' => 'HscController@hscTcStudents']);
+
+	Route::any('/hscTcStudentSearch', ['as' => 'students.hsc.hsctcstudentsearch', 'uses' => 'HscController@hscTcStudentSearch']);
 
 
-	Route::post('tc_student_pdf',['as'=>'students.hsc.tc_student_pdf','uses'=>'HscController@tcStudentPdf']); 
-	   
-	    Route::any('/upload', ['as' => 'students.hsc.student.upload', 'uses' => 'HscController@Upload']);
+	Route::post('tc_student_pdf', ['as' => 'students.hsc.tc_student_pdf', 'uses' => 'HscController@tcStudentPdf']);
+
+	Route::any('/upload', ['as' => 'students.hsc.student.upload', 'uses' => 'HscController@Upload']);
 
 
 
-	   Route::any('/hscformat', ['as' => 'students.hsc.format', 'uses' => 'HscController@formatDownload']);
+	Route::any('/hscformat', ['as' => 'students.hsc.format', 'uses' => 'HscController@formatDownload']);
 
-	   Route::any('/uploaded', ['as' => 'students.hsc.upload.ext', 'uses' => 'HscController@postUpload']);
+	Route::any('/uploaded', ['as' => 'students.hsc.upload.ext', 'uses' => 'HscController@postUpload']);
 
-	    Route::any('/totlist', ['as' => 'students.hsc.totlist', 'uses' => 'HscController@totlistSelect']);
+	Route::any('/totlist', ['as' => 'students.hsc.totlist', 'uses' => 'HscController@totlistSelect']);
 
-	    Route::post('/totlistgenerate', ['as' => 'students.hsc.generate', 'uses' => 'HscController@totlistGenerate']);
-	    Route::get('/tot/{name}', ['as' => 'students.hsc.tot.download', 'uses' => 'HscController@totlistDownload']);
+	Route::post('/totlistgenerate', ['as' => 'students.hsc.generate', 'uses' => 'HscController@totlistGenerate']);
+	Route::get('/tot/{name}', ['as' => 'students.hsc.tot.download', 'uses' => 'HscController@totlistDownload']);
 
-	    Route::any('/regstudent', ['as' => 'students.hsc.regstudent', 'uses' => 'HscController@regStudent']);
- 		Route::any('/hsc_bulk_report_input_action', ['as' => 'students.hsc.bulk_report', 'uses' => 'HscController@bulk_report']); 
+	Route::any('/regstudent', ['as' => 'students.hsc.regstudent', 'uses' => 'HscController@regStudent']);
+	Route::any('/hsc_bulk_report_input_action', ['as' => 'students.hsc.bulk_report', 'uses' => 'HscController@bulk_report']);
 
-/*Route::post('/editdata',function(){
+	/*Route::post('/editdata',function(){
 
                    if(Request::ajax()){	
                    //$groups=Input::get('groups');
 	               echo json_encode("hello");	
 }
 });*/
-
-	   
 });
 
-Route::group(['namespace'=>'Student', 'middleware' => 'auth', 'prefix' => 'students/idcard'],function() {
+Route::group(['namespace' => 'Student', 'middleware' => 'auth', 'prefix' => 'students/idcard'], function () {
 	Route::any('/', ['as' => 'students.idcard', 'uses' => 'IDCardController@index']);
 	Route::any('category_details', ['as' => 'students.idcard.category_details', 'uses' => 'IDCardController@categoryDetails']);
 
 	Route::any('dep_select_faculty', ['as' => 'students.idcard.dep_select_faculty', 'uses' => 'IDCardController@depSelectFaculty']);
 
-	Route::any('id_card_generate', ['as' => 'students.idcard.id_card_generate', 'uses' => 'IDCardController@idCardGenerate']);	
+	Route::any('id_card_generate', ['as' => 'students.idcard.id_card_generate', 'uses' => 'IDCardController@idCardGenerate']);
 
-	Route::any('id_card_generate_multi', ['as' => 'students.idcard.id_card_generate_multi', 'uses' => 'IDCardController@idCardGenerateMulti']);	
-
+	Route::any('id_card_generate_multi', ['as' => 'students.idcard.id_card_generate_multi', 'uses' => 'IDCardController@idCardGenerateMulti']);
 });
 
 // Degree Controller
-Route::group(['prefix' => 'students/degree','namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students/degree', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 
 
 	Route::get('/', 'DegreeController@index')->name('students.degree');
@@ -208,20 +202,18 @@ Route::group(['prefix' => 'students/degree','namespace'=>'Student', 'middleware'
 	Route::delete('/destroy/{id}', 'DegreeController@destroy')->name('students.degree.destroy');
 	Route::post('/force-promotion', 'DegreeController@force_promotion')->name('students.degree.force_promotion');
 	Route::post('/datasource', 'DegreeController@datasource')->name('students.degree.datasource');
-    Route::get('/print/{id}', ['as' => 'students.degree.print', 'uses' => 'DegreeController@printDetails']);
+	Route::get('/print/{id}', ['as' => 'students.degree.print', 'uses' => 'DegreeController@printDetails']);
 
 	Route::any('/upload', ['as' => 'students.degree.student.upload', 'uses' => 'DegreeController@Upload']);
 	Route::any('/regstudent', ['as' => 'students.degree.regstudent', 'uses' => 'DegreeController@regStudent']);
 	Route::any('/regsearch', ['as' => 'students.degree.regsearch', 'uses' => 'DegreeController@regSearch']);
-			Route::any('/uploaded', ['as' => 'students.degree.upload.ext', 'uses' => 'DegreeController@postUpload']);   
+	Route::any('/uploaded', ['as' => 'students.degree.upload.ext', 'uses' => 'DegreeController@postUpload']);
 	Route::any('/degformat', ['as' => 'students.degree.format', 'uses' => 'DegreeController@formatDownload']);
-	Route::any('/degree_bulk_report_input_action', ['as' => 'students.degree.bulk_report', 'uses' => 'DegreeController@bulk_report']); 
-
-
+	Route::any('/degree_bulk_report_input_action', ['as' => 'students.degree.bulk_report', 'uses' => 'DegreeController@bulk_report']);
 });
 
 // Subject Management Routes
-Route::group(['prefix' => 'students', 'namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 
 	// Course Subject Routes
 	Route::get('/course-subject', 'CourseSubjectController@index')->name('students.course-subject.index');
@@ -240,11 +232,10 @@ Route::group(['prefix' => 'students', 'namespace'=>'Student', 'middleware' => 'a
 	Route::put('/combination/update/{id}', 'SubjectCombinationController@update')->name('students.combination.update');
 	Route::delete('/combination/destroy/{id}', 'SubjectCombinationController@destroy')->name('students.combination.destroy');
 	Route::get('/combination/datasource', 'SubjectCombinationController@datasource')->name('students.combination.datasource');
-
 });
 
 // Masters Controller
-Route::group(['prefix' => 'students/masters','namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students/masters', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 
 	Route::get('/', 'MastersController@index')->name('students.masters');
 	Route::get('/new', 'MastersController@create')->name('students.masters.create');
@@ -253,16 +244,16 @@ Route::group(['prefix' => 'students/masters','namespace'=>'Student', 'middleware
 	Route::delete('/destroy/{id}', 'MastersController@destroy')->name('students.masters.destroy');
 	Route::post('/force-promotion', 'MastersController@force_promotion')->name('students.masters.force_promotion');
 	Route::post('/datasource', 'MastersController@datasource')->name('students.masters.datasource');
-    Route::get('/print/{id}', ['as' => 'students.masters.print', 'uses' => 'MastersController@printDetails']);
-	Route::any('/regstudent', ['as' => 'students.masters.regstudent', 'uses' => 'MastersController@regStudent']);	
-	Route::any('/regsearch', ['as' => 'students.masters.regsearch', 'uses' => 'MastersController@regSearch']); 
+	Route::get('/print/{id}', ['as' => 'students.masters.print', 'uses' => 'MastersController@printDetails']);
+	Route::any('/regstudent', ['as' => 'students.masters.regstudent', 'uses' => 'MastersController@regStudent']);
+	Route::any('/regsearch', ['as' => 'students.masters.regsearch', 'uses' => 'MastersController@regSearch']);
 
-	Route::any('/masters_bulk_report_input_action', ['as' => 'students.masters.bulk_report', 'uses' => 'MastersController@bulk_report']); 
+	Route::any('/masters_bulk_report_input_action', ['as' => 'students.masters.bulk_report', 'uses' => 'MastersController@bulk_report']);
 	Route::post('/admission/mscreport', ['as' => 'students.admission.mscadmreport', 'uses' => 'MastersController@generateMscAdmReport']);
 });
 
 //Honours Controller
-Route::group(['prefix' => 'students/honours','namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students/honours', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 	Route::get('/', 'HonoursController@index')->name('students.honours');
 	Route::get('/new', 'HonoursController@create')->name('students.honours.create');
 	Route::post('/store', 'HonoursController@store')->name('students.honours.store');
@@ -270,19 +261,19 @@ Route::group(['prefix' => 'students/honours','namespace'=>'Student', 'middleware
 	Route::delete('/destroy/{id}', 'HonoursController@destroy')->name('students.honours.destroy');
 	Route::post('/force-promotion', 'HonoursController@force_promotion')->name('students.honours.force_promotion');
 	Route::post('/datasource', 'HonoursController@datasource')->name('students.honours.datasource');
-    Route::get('/print/{id}', ['as' => 'students.honours.print', 'uses' => 'HonoursController@printDetails']);
+	Route::get('/print/{id}', ['as' => 'students.honours.print', 'uses' => 'HonoursController@printDetails']);
 
-    Route::any('/regstudent', ['as' => 'students.honours.regstudent', 'uses' => 'HonoursController@regStudent']);
-    Route::any('/regsearch', ['as' => 'students.honours.regsearch', 'uses' => 'HonoursController@regSearch']);    
+	Route::any('/regstudent', ['as' => 'students.honours.regstudent', 'uses' => 'HonoursController@regStudent']);
+	Route::any('/regsearch', ['as' => 'students.honours.regsearch', 'uses' => 'HonoursController@regSearch']);
 
-    Route::any('/honours_bulk_report_input_action', ['as' => 'students.honours.bulk_report', 'uses' => 'HonoursController@bulk_report']);
-    
-    Route::post('/admission/honreport', ['as' => 'students.admission.honadmreport', 'uses' => 'HonoursController@generateHonAdmReport']);
+	Route::any('/honours_bulk_report_input_action', ['as' => 'students.honours.bulk_report', 'uses' => 'HonoursController@bulk_report']);
+
+	Route::post('/admission/honreport', ['as' => 'students.admission.honadmreport', 'uses' => 'HonoursController@generateHonAdmReport']);
 });
 
 
 
-Route::group(['prefix' => 'students/migration','namespace'=>'Student', 'middleware' => 'auth'],function() {
+Route::group(['prefix' => 'students/migration', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 	Route::any('/', ['as' => 'students.migration', 'uses' => 'MigrationController@migration']);
 
 	Route::any('/migrationList', ['as' => 'students.migration.list', 'uses' => 'MigrationController@migratedStudentList']);
@@ -301,7 +292,7 @@ Route::group(['prefix' => 'students/migration','namespace'=>'Student', 'middlewa
 });
 
 // Report url
-Route::group(['namespace'=>'Student', 'middleware' => 'auth', 'prefix' => 'students/report'],function() {
+Route::group(['namespace' => 'Student', 'middleware' => 'auth', 'prefix' => 'students/report'], function () {
 	// hsc admission
 	Route::get('hsc', ['as' => 'students.report.hsc', 'uses' => 'ReportController@hsc_report']);
 	Route::any('hsc/admission', ['as' => 'report.hsc.admission', 'uses' => 'ReportController@hsc_admission']);
@@ -314,7 +305,7 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth', 'prefix' => 'stude
 
 	// masters
 	Route::get('/masters', ['as' => 'students.report.masters', 'uses' => 'ReportController@masters_report']);
-		// admission
+	// admission
 	Route::any('/masters/admission', ['as' => 'report.masters.admission', 'uses' => 'ReportController@masters_admission']);
 	Route::post('/masters/admission/generate', ['as' => 'report.masters.admission.generate', 'uses' => 'ReportController@generateMscAdmReport']);
 	// form fillup
@@ -323,17 +314,16 @@ Route::group(['namespace'=>'Student', 'middleware' => 'auth', 'prefix' => 'stude
 
 	// masters
 	Route::get('/degree', ['as' => 'students.report.degree', 'uses' => 'ReportController@degree_report']);
-		// admission
+	// admission
 	Route::any('/degree/admission', ['as' => 'report.degree.admission', 'uses' => 'ReportController@degree_admission']);
 	Route::post('/degree/admission/generate', ['as' => 'report.degree.admission.generate', 'uses' => 'ReportController@generateDegAdmReport']);
-		// applicaton
+	// applicaton
 	Route::any('/degree/application', ['as' => 'report.degree.application', 'uses' => 'ReportController@degree_application']);
 	Route::post('/degree/application/generate', ['as' => 'report.degree.application.generate', 'uses' => 'ReportController@generateDegAppReport']);
-
 });
 
 // Report url
-Route::group(['namespace'=>'Student\Report', 'middleware' => 'auth', 'prefix' => 'students/report'],function() {
+Route::group(['namespace' => 'Student\Report', 'middleware' => 'auth', 'prefix' => 'students/report'], function () {
 	// hsc formfillup
 	Route::any('/hsc/formfillup', ['as' => 'report.hsc.ff', 'uses' => 'HSCReportController@hsc_form_fillup']);
 	Route::post('/hsc/form_fillup/generate', ['as' => 'report.hsc.ff.generate', 'uses' => 'HSCReportController@generateHSCFFReport']);
@@ -369,27 +359,24 @@ Route::post('truncate/table', 'EcmController@truncate_table')->name('truncate.ta
 Route::get('download/csv/format', 'EcmController@download_csv_format')->name('download.csv.format');
 Route::post('truncate/table', 'EcmController@truncate_table')->name('truncate.table');
 
-Route::group(['namespace'=>'Student\Attendance', 'middleware' => 'auth', 'prefix' => 'students'],function() {
+Route::group(['namespace' => 'Student\Attendance', 'middleware' => 'auth', 'prefix' => 'students'], function () {
 	Route::get('attendance-list', 'StudentAttendanceController@index')->name('students.attendance-list');
 	Route::post('attendance-list-datasource', 'StudentAttendanceController@datasource')->name('students.attendance-list-datasource');
 	Route::get('attendance-settings', 'AttendanceSettingController@setting')->name('students.attendance-setting');
 	Route::post('attendance-settings', 'AttendanceSettingController@settingPost')->name('students.attendance-setting');
 	Route::get('send-attendance-sms', 'StudentAttendanceController@sentSMSView')->name('students.send-attendance-sms');
 	Route::post('send-attendance-sms', 'StudentAttendanceController@sentSMSPost')->name('students.send-attendance-sms');
-	
+
 	Route::get('attendance-sms-log', 'StudentAttendanceController@smsLog')->name('students.attendance-sms-log');
 	Route::post('attendance-sms-log-datasource', 'StudentAttendanceController@smsLogDatasource')->name('students.attendance-sms-log-datasource');
-
-
-
 });
 
-Route::group(['as'=> 'student.','namespace'=>'Student\Report', 'middleware' => 'auth', 'prefix' => 'students/fees-payment', ''],function() {
+Route::group(['as' => 'student.', 'namespace' => 'Student\Report', 'middleware' => 'auth', 'prefix' => 'students/fees-payment', ''], function () {
 	Route::get('/report', 'FeesPaymentReportController@index')->name('fees-payment.report');
 	Route::get('/fees-payment-report/data', 'FeesPaymentReportController@getData')->name('fees-payment-report.data');
-    Route::get('/fees-payment-report/details', 'FeesPaymentReportController@getDetails')->name('fees-payment-report.details');
-    Route::get('/fees-payment-report/summary', 'FeesPaymentReportController@getSummary')->name('fees-payment-report.summary');
-    Route::get('/fees-payment-report/export', 'FeesPaymentReportController@export')->name('fees-payment-report.export');
+	Route::get('/fees-payment-report/details', 'FeesPaymentReportController@getDetails')->name('fees-payment-report.details');
+	Route::get('/fees-payment-report/summary', 'FeesPaymentReportController@getSummary')->name('fees-payment-report.summary');
+	Route::get('/fees-payment-report/export', 'FeesPaymentReportController@export')->name('fees-payment-report.export');
 });
 
 

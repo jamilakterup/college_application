@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $config->home_page_title ?? 'Online Fees Payment Portal' }}</title>
+    <title>@yield('page-title', 'Online Fees Payment Portal')</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
@@ -37,8 +37,8 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding-top: 0;
-            padding-bottom: 0;
+            padding: 0;
+            margin: 0;
         }
         
         .page-header {
@@ -47,6 +47,12 @@
             margin-bottom: 50px;
             color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        
+        .main-content {
+            flex: 1;
+            width: 100%;
         }
         
         .header-logo {
@@ -186,6 +192,7 @@
             color: #e5e7eb;
             padding: 30px 0;
             margin-top: auto;
+            width: 100%;
         }
         
         .footer-links a {
@@ -248,37 +255,39 @@
     <div class="page-header text-center">
         <div class="container">
             <img src="{{asset('upload/sites/'.config('settings.site_logo'))}}" alt="Institution Logo" class="header-logo">
-            <h3 class="fw-bold">{{$config->home_page_title ?? 'Online Fees Payment Portal'}}</h3>
+            <h3 class="fw-bold">@yield('header-title', 'Online Fees Payment Portal')</h3>
             <p class="lead text-white-50">@yield('section-title', 'Complete your payment information securely')</p>
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 m-auto">
-                @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                @if(session('warning'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle me-2"></i> {{ session('warning') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                
-                @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 m-auto">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if(session('warning'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> {{ session('warning') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                </div>
             </div>
+            
+            @yield('content')
         </div>
-        
-        @yield('content')
     </div>
     
     <footer>

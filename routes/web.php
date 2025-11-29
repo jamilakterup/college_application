@@ -434,16 +434,42 @@ Route::any('get-admit-card', 'HomeController@getAdmitCard')->name('get-admit-car
 Route::post('download-admit-card', 'HomeController@downloadAdmitCard')->name('download-admit-card');
 
 // Degree Form Fillup
+// Route::group(['prefix' => 'fees-payment'], function () {
+
+//     Route::any('/', ['as' => 'fees-payment.index', 'uses' => 'FeesPaymentController@index']);
+//     Route::any('/check', ['as' => 'fees.check-eligibility', 'uses' => 'FeesPaymentController@checkEligibility']);
+//     Route::any('/form', ['as' => 'fees-payment.form', 'uses' => 'FeesPaymentController@showForm']);
+//     Route::any('/submit', ['as' => 'fees-payment.submit', 'uses' => 'FeesPaymentController@submitForm']);
+//     Route::any('/payment-view', ['as' => 'fees-payment.payment-view', 'uses' => 'FeesPaymentController@paymentView']);
+//     Route::any('/submit/payment-information', ['as' => 'fees-payment.payment-information.submit', 'uses' => 'FeesPaymentController@submitPaymentInformation']);
+
+//     Route::any('/confirmation', ['as' => 'fees-payment.confirmation', 'uses' => 'FeesPaymentController@confirmation']);
+
+//     Route::any('/download-slip', ['as' => 'fees-payment.download-slip', 'uses' => 'FeesPaymentController@downloadSlip']);
+// });
+
+
 Route::group(['prefix' => 'fees-payment'], function () {
+    Route::get('/', ['as' => 'fees-payment.index', 'uses' => 'FeesPaymentController@index']);
 
-    Route::any('/', ['as' => 'fees-payment.index', 'uses' => 'FeesPaymentController@index']);
-    Route::any('/check', ['as' => 'fees.check-eligibility', 'uses' => 'FeesPaymentController@checkEligibility']);
-    Route::any('/form', ['as' => 'fees-payment.form', 'uses' => 'FeesPaymentController@showForm']);
-    Route::any('/submit', ['as' => 'fees-payment.submit', 'uses' => 'FeesPaymentController@submitForm']);
+    // Handle configuration selection
+    Route::post('/select-configuration', ['as' => 'fees-payment.select-configuration', 'uses' => 'FeesPaymentController@selectConfiguration']);
+
+    // Show eligibility form for selected configuration
+    Route::get('/eligibility-form', ['as' => 'fees-payment.eligibility-form', 'uses' => 'FeesPaymentController@eligibilityForm']);
+
+    // Check eligibility
+    Route::post('/check', ['as' => 'fees.check-eligibility', 'uses' => 'FeesPaymentController@checkEligibility']);
+
+    // Show and submit payment form
+    Route::get('/form', ['as' => 'fees-payment.form', 'uses' => 'FeesPaymentController@showForm']);
+    Route::post('/submit', ['as' => 'fees-payment.submit', 'uses' => 'FeesPaymentController@submitForm']);
+
+    // Payment view and submission
     Route::any('/payment-view', ['as' => 'fees-payment.payment-view', 'uses' => 'FeesPaymentController@paymentView']);
-    Route::any('/submit/payment-information', ['as' => 'fees-payment.payment-information.submit', 'uses' => 'FeesPaymentController@submitPaymentInformation']);
+    Route::post('/submit/payment-information', ['as' => 'fees-payment.payment-information.submit', 'uses' => 'FeesPaymentController@submitPaymentInformation']);
 
+    // Confirmation and download
     Route::any('/confirmation', ['as' => 'fees-payment.confirmation', 'uses' => 'FeesPaymentController@confirmation']);
-
     Route::any('/download-slip', ['as' => 'fees-payment.download-slip', 'uses' => 'FeesPaymentController@downloadSlip']);
 });

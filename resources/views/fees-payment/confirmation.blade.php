@@ -4,6 +4,20 @@
 @section('section-title', 'Student Details & Confirmation')
 
 @section('content')
+    @if(isset($updatedLevel) && $updatedLevel && $feesApplication->invoice && $updatedLevel !== $feesApplication->invoice->level)
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <h5 class="alert-heading">
+                <i class="fas fa-check-circle me-2"></i>Congratulations! You have been promoted!
+            </h5>
+            <p class="mb-0">
+                Your payment has been processed successfully and you have been promoted from 
+                <strong>{{ $feesApplication->invoice->level }}</strong> to 
+                <strong>{{ $updatedLevel }}</strong>.
+            </p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    
     <div class="row">
         @if($feesApplication->status == 'Paid' && $feesApplication->invoice)
             <div class="col-md-6">
@@ -62,49 +76,87 @@
                     <div class="col-12">
                         <table class="table table-bordered table-striped">
                             <tbody>
-                                <tr>
-                                    <th>Name</th>
-                                    <td>{{ $feesApplication->name ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Father's Name</th>
-                                    <td>{{ $feesApplication->father_name ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Mother's Name</th>
-                                    <td>{{ $feesApplication->mother_name ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date of Birth</th>
-                                    <td>{{ $feesApplication->date_of_birth ? date('d-m-Y', strtotime($feesApplication->date_of_birth)) : 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Gender</th>
-                                    <td>{{ $feesApplication->gender ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Mobile</th>
-                                    <td>{{ $feesApplication->mobile ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Group/Department</th>
-                                    <td>{{ $feesApplication->group_dept ?? 'N/A' }}</td>
-                                </tr>
-                                @php
-                                    $referenceData = json_decode($feesApplication->reference_data, true);
-                                @endphp
-                                <tr>
-                                    <th>Registration ID</th>
-                                    <td>{{ $referenceData['registration_id'] ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Current Level</th>
-                                    <td>{{ $referenceData['current_level'] ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Academic Session</th>
-                                    <td>{{ $referenceData['academic_session'] ?? 'N/A' }}</td>
-                                </tr>
+                                @if(!empty($feesApplication->name))
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>{{ $feesApplication->name }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->father_name))
+                                    <tr>
+                                        <th>Father's Name</th>
+                                        <td>{{ $feesApplication->father_name }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->mother_name))
+                                    <tr>
+                                        <th>Mother's Name</th>
+                                        <td>{{ $feesApplication->mother_name }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->date_of_birth))
+                                    <tr>
+                                        <th>Date of Birth</th>
+                                        <td>{{ date('d-m-Y', strtotime($feesApplication->date_of_birth)) }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->gender))
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>{{ $feesApplication->gender }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->mobile))
+                                    <tr>
+                                        <th>Mobile</th>
+                                        <td>{{ $feesApplication->mobile }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->group_dept))
+                                    <tr>
+                                        <th>Group/Department</th>
+                                        <td>{{ $feesApplication->group_dept }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if(!empty($feesApplication->registration_id))
+                                    <tr>
+                                        <th>Registration ID</th>
+                                        <td>{{ $feesApplication->registration_id }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if($feesApplication->invoice && !empty($feesApplication->invoice->level))
+                                    <tr>
+                                        <th>Payment For Level</th>
+                                        <td>{{ $feesApplication->invoice->level }}</td>
+                                    </tr>
+                                @endif
+                                
+                                @if($updatedLevel && $feesApplication->invoice && $updatedLevel !== $feesApplication->invoice->level)
+                                    <tr>
+                                        <th>Promoted To Level</th>
+                                        <td>
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-arrow-up me-1"></i> {{ $updatedLevel }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endif
+                                
+                                @if($feesApplication->invoice && !empty($feesApplication->invoice->admission_session))
+                                    <tr>
+                                        <th>Academic Session</th>
+                                        <td>{{ $feesApplication->invoice->admission_session }}</td>
+                                    </tr>
+                                @endif
+                                
                                 <tr>
                                     <th>Payment Status</th>
                                     <td>
@@ -113,7 +165,8 @@
                                         </span>
                                     </td>
                                 </tr>
-                                @if($feesApplication->invoice)
+                                
+                                @if($feesApplication->invoice && !empty($feesApplication->invoice->total_amount))
                                     <tr>
                                         <th>Total Amount</th>
                                         <td>{{ round($feesApplication->invoice->total_amount) }} {{ config('settings.currency', 'BDT') }}</td>
