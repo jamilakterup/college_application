@@ -135,6 +135,10 @@
                     <div class="form-group">
                         {!! Form::text('honours_roll', null, ['class'=> 'form-control input-lg', 'placeholder'=> 'Admission Roll', 'required'=> true, 'id'=> 'honours_roll' ]) !!}
                     </div>
+
+                    <div class="form-group">
+                        {!! Form::text('password', null, ['class'=> 'form-control input-lg', 'placeholder'=> 'Quota Password (Optional)', 'required'=> true, 'id'=> 'password' ]) !!}
+                    </div>
                     <div style="margin:0 auto;font-size:18px; text-align:center;" id="next_step_error"></div>
 
                     <div class="form-group">

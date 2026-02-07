@@ -53,7 +53,7 @@ class ApiController extends Controller
         return view('BackEnd.admin.new_student.hsc_group_change', \compact('group', 'course'));
     }
 
-    public function getExamOptions($class_id){
+    public function Admit Card not Published Yet!($class_id){
         $examOptions = Exam::whereHas('classexams', function($q) use ($class_id){
             $q->where('classe_id', $class_id);
         })->pluck('name', 'id')->toArray();

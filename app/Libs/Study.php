@@ -646,7 +646,6 @@ class Study
 
 	public static function regSearchHscStudent($id, $ssc_roll, $session)
 	{
-
 		$outcomes = HscAdmittedStudent::where(function ($query) use ($id, $ssc_roll, $session) {
 
 			if (isset($id) && $id != '') :
@@ -906,7 +905,6 @@ class Study
 
 	public static function searchDegreeStudent($id, $admission_roll, $faculty, $current_level, $session)
 	{
-
 		$outcomes = StudentInfoDegree::where(function ($query) use ($id, $admission_roll, $faculty, $current_level, $session) {
 
 			if (isset($id) && $id != '') :

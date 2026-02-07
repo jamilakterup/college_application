@@ -106,7 +106,6 @@
                                     </li>
                                 </ul>
                             @endcan
-
                         </li>
                     @endcanany
 
@@ -211,7 +210,7 @@
                 <span class="site-menu-title">Certificate</span>
             </a>
           </li>
-        --}}
+                --}}
 
                     <li class="site-menu-item {{ active('students/idcard*') }}">
                         <a href="{{ route('students.idcard') }}">
@@ -263,10 +262,10 @@
                     @endcanany
 
                     {{-- <li class="site-menu-item {{active('admin/faculty*')}}">
-            <a href="{{ route('admin.faculty.index') }}">
-                <i class="site-menu-icon fad fa-th" aria-hidden="true"></i>
-                <span class="site-menu-title">Attendence Report</span>
-            </a>
+        <a href="{{ route('admin.faculty.index') }}">
+            <i class="site-menu-icon fad fa-th" aria-hidden="true"></i>
+            <span class="site-menu-title">Attendence Report</span>
+        </a>
           </li>
           <li class="site-menu-item {{active('admin/admission*')}}">
             <a href="{{ route('admin.admission.index') }}">
@@ -430,13 +429,10 @@
                                     </li>
                                 </ul>
                             @endcan
-
                         </li>
                     @endcanany
                     </li>
-
                 </ul>
-
             </div>
         </div>
     </div>

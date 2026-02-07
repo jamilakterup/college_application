@@ -16,12 +16,9 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
   Route::resource('result_publish', 'HscResultPublishController');
   Route::resource('admit_card_publish', 'AdmitCardPublishController');
 
-
   Route::any('/hsc_result_sms', ['as' => 'hsc_result_sms.index', 'uses' => 'HscResultSmsController@index']);
   Route::any('hsc_result_sms/list', ['as' => 'hsc_result_sms.list', 'uses' => 'HscResultSmsController@marklist']);
   Route::any('hsc_result_sms/store', ['as' => 'hsc_result_sms.store', 'uses' => 'HscResultSmsController@store']);
-
-
 
   Route::any('/', ['as' => 'hsc_result.index', 'uses' => 'HscResultController@index']);
   Route::any('mark_input/csv', ['as' => 'mark_input.csv', 'uses' => 'MarkInputController@csv']);
@@ -38,6 +35,7 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
   Route::any('attendence_generate/list', ['as' => 'attendence_generate.list', 'uses' => 'ExamAttendenceGenController@attendence_list']);
   Route::any('attendance_sheet/list', ['as' => 'attendance_sheet.list', 'uses' => 'AttendanceSheetController@marklist']);
   Route::get('merit_list/{id}', ['as' => 'process.merit-pdf', 'uses' => 'ResultProcessingController@MeritListPdf']);
+  Route::get('merit_lists/{id}', ['as' => 'process.merit-pdf-asc', 'uses' => 'ResultProcessingController@MeritListPdfAsc']);
   Route::get('merit_list/excel/{id}', ['as' => 'process.merit-excel', 'uses' => 'ResultProcessingController@MeritListExcel']);
   Route::get('total_marks/{id}', ['as' => 'process.total-marks-pdf', 'uses' => 'ResultProcessingController@TotalMarksListPdf']);
   Route::get('tabulation/{id}/{ex_id}', ['as' => 'process.tabulation-pdf', 'uses' => 'ResultProcessingController@TabulationPdf']);
@@ -77,7 +75,6 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
   Route::get('fees_details/edit/{id}', ['as' => 'fees_details.edit', 'uses' => 'HscResultController@fees_Edit']);
   Route::post('/fees_details/generate', ['as' => 'fees_details.generate', 'uses' => 'HscResultController@fees_details_generate']);
 
-
   Route::resource('assign_class_test', 'SettingAssignClasstestController', ['only' => ['index', 'edit', 'update', 'destroy']]);
 
   Route::get('mark_input/load-exam/{id}', 'MarkInputController@getExam');
@@ -88,8 +85,6 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
   Route::get('attendance_sheet/load-subject/{year}/{id}', 'AttendanceSheetController@getSubject');
   Route::get('attendance_sheet/load-classtest/{examid}', 'AttendanceSheetController@getClasstest');
 
-
-
   Route::any('search/subject_info', ['as' => 'subject_info.search', 'uses' => 'SettingSubjectInfoController@search']);
 
   Route::get('assign-subject/edit/{class_id}/{department_id}', ['as' => 'assign_subject.edit', 'uses' => 'SettingAssignSubjectController@edit']);
@@ -97,7 +92,6 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
 
   Route::get('exam_date/edit/{class_id}/{department_id}', ['as' => 'exam_date.edit', 'uses' => 'ExamDateController@edit']);
   Route::put('exam_date/update/{class_id}/{department_id}', ['as' => 'exam_date.update', 'uses' => 'ExamDateController@update']);
-
 
   Route::delete('assign-subject/delete/{class_id}/{department_id}', ['as' => 'assign_subject.destroy', 'uses' => 'SettingAssignSubjectController@destroy']);
 
@@ -108,7 +102,6 @@ Route::group(['prefix' => 'hsc_result', 'as' => 'hsc_result.', 'namespace' => 'H
   Route::get('student_subject_assign', ['as' => 'student_subject.assign', 'uses' => 'SettingAssignSubjectController@student_subject_assign']);
 
   Route::post('student_subject_assign', ['as' => 'student_subject.assign.update', 'uses' => 'SettingAssignSubjectController@assignSubject_from_hsc_admit']);
-
 
   Route::get('assign_sub_all', ['as' => 'assign_subject_all.assign', 'uses' => 'SettingAssignSubjectController@assignSubject_from_hsc_admit_all']);
 });

@@ -33,6 +33,13 @@
                                 <i class="fas fa-download me-2"></i> Download Confirmation Slip
                             </a>
                         </div>
+
+                        <div class="col-12 text-center">
+                            <p>Your payment has been successfully processed.</p>
+                            <a href="https://easycollegemate.com/ecmngdc/get-admit-card" class="btn btn-success">
+                                <i class="fas fa-download me-2"></i> Download Admit Card
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

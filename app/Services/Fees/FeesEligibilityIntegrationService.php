@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Fees;
 
 use App\Models\FeesEligibility;
@@ -17,16 +18,10 @@ class FeesEligibilityIntegrationService
      */
     public static function checkEligibility($referenceId, $academicSession, $currentLevel = null, $studentType = null)
     {
-        $config = DB::table('fees_configurations')->first();
-        
-        if (!$config || !$config->check_eligible_list) {
-            return null;
-        }
-
         // Check FeesEligibility system
         $query = FeesEligibility::where('student_id', $referenceId)
-                                ->where('session', $academicSession)
-                                ->where('is_active', true);
+            ->where('session', $academicSession)
+            ->where('is_active', true);
 
         if ($currentLevel) {
             $query->where('level', $currentLevel);
@@ -79,10 +74,10 @@ class FeesEligibilityIntegrationService
     public static function createInvoice($studentId, $studentType, $session, $invoiceData)
     {
         $eligibility = FeesEligibility::where('student_id', $studentId)
-                                      ->where('student_type', $studentType)
-                                      ->where('session', $session)
-                                      ->where('is_active', true)
-                                      ->first();
+            ->where('student_type', $studentType)
+            ->where('session', $session)
+            ->where('is_active', true)
+            ->first();
 
         if (!$eligibility) {
             return null;
@@ -145,21 +140,20 @@ class FeesEligibilityIntegrationService
     public static function getPaymentStatus($studentId, $studentType, $session)
     {
         $eligibility = FeesEligibility::where('student_id', $studentId)
-                                      ->where('student_type', $studentType)
-                                      ->where('session', $session)
-                                      ->where('is_active', true)
-                                      ->first();
+            ->where('student_type', $studentType)
+            ->where('session', $session)
+            ->where('is_active', true)
+            ->first();
 
         if (!$eligibility) {
             return null;
         }
 
         $application = $eligibility->feesApplications()
-                                  ->with('invoice')
-                                  ->latest()
-                                  ->first();
+            ->with('invoice')
+            ->latest()
+            ->first();
 
         return $application ? $application->status : null;
     }
 }
-
