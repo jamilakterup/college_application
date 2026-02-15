@@ -191,6 +191,18 @@ Route::group(['namespace' => 'Student', 'middleware' => 'auth', 'prefix' => 'stu
 	Route::any('id_card_generate_multi', ['as' => 'students.idcard.id_card_generate_multi', 'uses' => 'IDCardController@idCardGenerateMulti']);
 });
 
+
+Route::group(['namespace' => 'Student', 'middleware' => 'auth', 'prefix' => 'students/graduatedStudentInfo'], function () {
+
+	Route::get('/', ['as' => 'students.graduatedStudentInfo', 'uses' => 'GraduatedStudentInfoController@index']);
+
+	Route::get('download-csv', [
+		'as' => 'students.graduatedStudentInfo.csv',
+		'uses' => 'GraduatedStudentInfoController@downloadCsv'
+	]);
+});
+
+
 // Degree Controller
 Route::group(['prefix' => 'students/degree', 'namespace' => 'Student', 'middleware' => 'auth'], function () {
 

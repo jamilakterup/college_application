@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GraduatedStudentInfoController;
 use Illuminate\Support\Facades\Route;
 
 foreach (glob(__DIR__ . '/web/*') as $router_files) {
@@ -473,3 +474,17 @@ Route::group(['prefix' => 'fees-payment'], function () {
     Route::any('/confirmation', ['as' => 'fees-payment.confirmation', 'uses' => 'FeesPaymentController@confirmation']);
     Route::any('/download-slip', ['as' => 'fees-payment.download-slip', 'uses' => 'FeesPaymentController@downloadSlip']);
 });
+
+Route::get('/graduated-student-info', [GraduatedStudentInfoController::class, 'index'])->name('graduated_student.form');
+
+
+Route::post('/graduated-student-info', [GraduatedStudentInfoController::class, 'store'])->name('graduated_student.store');
+
+
+// Show the record
+Route::get('graduated_student/view/{user_id}', [GraduatedStudentInfoController::class, 'view'])
+    ->name('graduated_student.view');
+
+// Optional: Edit page
+Route::get('graduated_student/edit/{user_id}', [GraduatedStudentInfoController::class, 'edit'])
+    ->name('graduated_student.edit');

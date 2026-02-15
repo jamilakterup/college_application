@@ -219,6 +219,14 @@
                         </a>
                     </li>
 
+                    <li class="site-menu-item {{ active('students/graduatedStudentInfo*') }}">
+                        <a href="{{ route('students.graduatedStudentInfo') }}">
+                            <i class="site-menu-icon fad fa-user-graduate" aria-hidden="true"></i>
+                            <span class="site-menu-title">Graduated Students Info</span>
+                        </a>
+                    </li>
+
+
                     @canany(['certificate.testimonial.manage', 'certificate.transfer.manage', 'certificate.manage',
                         'hsc_tc_student.manage'])
                         <li

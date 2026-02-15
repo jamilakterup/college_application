@@ -28,3 +28,5 @@ Route::post('get-exam-options/{class_id}', 'ApiController@getExamOptions')->name
 Route::post('sync-device-attendances', 'DeviceAttendanceApiController@syncDeviceAttendance');
 Route::post('get-ajax-modal', 'ApiController@getAjaxModal')->name('get-modal');
 Route::get('getWeekendHolidays', 'ApiController@getWeekendHolidays');
+
+Route::post('sync-device-attendances', 'DeviceAttendanceApiController@syncDeviceAttendance');
